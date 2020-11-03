@@ -5,7 +5,7 @@ MLX = libmlx.dylib
 SRC_DIR = src/
 OBJ_DIR = src/
 SRC_FILES = $(SRC_DIR)*.c gnl/*.c
-FLAGS = -Wall -Wextra -Werror -Iincludes/ -g #FIXME
+FLAGS = -Wall -Wextra -Werror -Iincludes/ -O3 -g #FIXME
 SRC = $(addprefix $(SRC_DIR), $(SRC_FILES))
 OBJ_FILES = $(addprefix $(OBJ_DIR), $(SRC_FILES:.c=.o))
 LIBS = -Lmlx -lmlx -framework OpenGL -framework AppKit -lm
