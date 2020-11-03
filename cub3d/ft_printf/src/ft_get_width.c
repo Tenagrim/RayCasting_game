@@ -6,7 +6,7 @@
 /*   By: gshona <marvin@42.fr>                      +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2020/11/01 12:27:23 by gshona            #+#    #+#             */
-/*   Updated: 2020/11/01 16:14:58 by gshona           ###   ########.fr       */
+/*   Updated: 2020/11/03 13:58:30 by gshona           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -42,7 +42,7 @@ int		ft_get_width(char **format, va_list arg)
 		return (-1);
 	else
 	{
-		digit = ft_strsub(start, 0, len);
+		digit = ft_substr(start, 0, len);
 		res = ft_atoi(digit);
 		free(digit);
 		return (res);

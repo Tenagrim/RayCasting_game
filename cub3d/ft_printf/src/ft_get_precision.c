@@ -6,7 +6,7 @@
 /*   By: gshona <marvin@42.fr>                      +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2020/11/01 12:26:33 by gshona            #+#    #+#             */
-/*   Updated: 2020/11/01 12:45:19 by gshona           ###   ########.fr       */
+/*   Updated: 2020/11/03 13:58:12 by gshona           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -41,7 +41,7 @@ int				ft_get_precision(char **format, va_list arg)
 		return (0);
 	else
 	{
-		digit = ft_strsub(start, 0, len);
+		digit = ft_substr(start, 0, len);
 		res = ft_atoi(digit);
 		free(digit);
 		return (res);
