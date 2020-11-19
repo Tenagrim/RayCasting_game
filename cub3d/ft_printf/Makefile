@@ -1,5 +1,6 @@
 NAME=libftprintf.a
-LIBFT = libft/*.o
+LIBFT_O = libft/*.o
+LIBFT = libft/libft.a
 SRC_DIR = src/
 OBJ_DIR = src/
 SRC_FILES =  	ft_format_output_char.c ft_format_output_digit.c \
@@ -11,22 +12,32 @@ SRC_FILES =  	ft_format_output_char.c ft_format_output_digit.c \
 		ft_itoa_base_uhh.c ft_itoa_base_ul.c ft_itoa_base_ull.c \
 		ft_min.c ft_new_attr.c ft_print_conv.c ft_printf.c \
 		ft_pow.c ft_dtoa.c ft_format_output_float.c \
-		ft_iffloat.c ft_max.c ft_ifptr.c ft_abs.c
+		ft_iffloat.c ft_max.c ft_ifptr.c ft_abs.c \
+		ft_format_output_ptr.c ft_str_len.c
 FLAGS = -Wall -Wextra -Werror -Iincludes/
 SRC = $(addprefix $(SRC_DIR), $(SRC_FILES))
 OBJ_FILES = $(addprefix $(OBJ_DIR), $(SRC_FILES:.c=.o))
 CC= gcc $(FLAGS)
 
-all : libft $(NAME)
+all : $(NAME)
 
 $(NAME) : $(OBJ_FILES) $(HEADER)
 	$(MAKE) -C libft
-	ar rc $(NAME) $(OBJ_FILES) $(LIBFT)
+	cp $(LIBFT) ./$(NAME)
+	ar rc $(NAME) $(OBJ_FILES)
 
 clean :
-	rm -f src/*.o
+	make clean -C libft
+	rm -f $(OBJ_FILES)
+
+bonus : $(NAME)
+	@echo "Compiling bonuses..."
+	@echo "..."
+	@echo "..."
+	@echo "Done"
 
 fclean : clean
+	make fclean -C libft
 	rm -f $(NAME)
 
 re : fclean all

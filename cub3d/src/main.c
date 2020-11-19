@@ -1,31 +1,41 @@
 #include <cub3d.h>
 
-
-
-int		main(int ac, char **av)
+static t_game	*init_game(char **av)
 {
 	t_mlx		*mlx;
+	t_game		*game;
 	t_map		*map;
 	t_list		*file;
-	t_game		*game;
 
-	if (!ac || !av)
-		return (1);
 	file = NULL;
 	game = (t_game*)malloc(sizeof(t_game));
-	mlx = (t_mlx*)malloc(sizeof(t_mlx));
+	game->settings = ft_default_settings();
+	game->player = ft_new_player();
+	file = ft_read_file(av[1]);
 	map = ft_get_map_from_file(file);
+	ft_print_map(map);
+	mlx = (t_mlx*)malloc(sizeof(t_mlx));
+	mlx->img = (t_img*)malloc(sizeof(t_img));
+	//ft_print_file(file);
 	game->map = map;
 	game->mlx = mlx;
 	mlx->mlx_ptr = mlx_init();
 	mlx->win= mlx_new_window(mlx->mlx_ptr, map->win_width, map->win_height, WIN_NAME);
-	mlx->img.img_ptr = mlx_new_image(mlx->mlx_ptr, map->win_width, map->win_height);
-
+	mlx->img->img_ptr = mlx_new_image(mlx->mlx_ptr, map->win_width, map->win_height);
 	mlx_hook(mlx->win, X_EVENT_KEY_PRESS, 0, &key_press, &game);
 	mlx_hook(mlx->win, X_EVENT_KEY_RELEASE, 0, &key_release, &game);
 	mlx_hook(mlx->win, X_EVENT_EXIT, 0, &exit_hook, &mlx);
 	//mlx_loop_hook(game.window.ptr, &main_loop, &game);
+	return (game);
+}
 
-	mlx_loop(mlx->mlx_ptr);	
+int		main(int ac, char **av)
+{
+	t_game		*game;
+
+	if (!ac || !av)
+		return (1);
+	game = init_game(av);
+	mlx_loop(game->mlx->mlx_ptr);
 	return (0);
 }

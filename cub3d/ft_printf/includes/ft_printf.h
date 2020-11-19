@@ -6,7 +6,7 @@
 /*   By: gshona <marvin@42.fr>                      +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2020/11/01 12:24:35 by gshona            #+#    #+#             */
-/*   Updated: 2020/11/01 12:24:36 by gshona           ###   ########.fr       */
+/*   Updated: 2020/11/11 18:13:23 by gshona           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -15,7 +15,7 @@
 # include <libft.h>
 # include <stdarg.h>
 
-# include <stdio.h> //FIXME
+#include <stdio.h>
 # define FLAGS		"+-0# "
 # define SIZES		"lhL"
 # define CONVERSIONS	"cCsSpdiouxXf%"
@@ -29,6 +29,7 @@
 # define SIZE_H		128
 # define SIZE_HH	256
 # define SIZE_UP_L	512
+# define FLAG_DOT	1024
 
 typedef struct		s_attr
 {
@@ -36,6 +37,8 @@ typedef struct		s_attr
 	int				precision;
 	int				flags;
 	char			conv;
+	int				wid;
+	int				unset_wid;
 }					t_attr;
 int					ft_min(int a, int b);
 int					ft_max(int a, int b);
@@ -46,7 +49,7 @@ int					ft_printf(const char *format, ...);
 t_attr				*ft_new_attr(void);
 t_attr				*ft_get_attr(char **format, va_list arg);
 int					ft_get_flags(char **format);
-int					ft_get_width(char **format, va_list arg);
+int					ft_get_width(char **format, va_list arg, t_attr *attr);
 int					ft_get_precision(char **format, va_list arg);
 int					ft_get_size(char **format);
 char				ft_get_conv(char **format);
@@ -63,8 +66,8 @@ char				*ft_itoa_base_ll(long long int value, int base, int upcase);
 char				*ft_itoa_base_h(short int value, int base, int upcase);
 char				*ft_itoa_base_hh(char value, int base, int upcase);
 int					ft_format_output_str(t_attr *attr, char *str);
-int					ft_format_output_char(t_attr *attr, char *str);
 int					ft_format_output_digit(t_attr *attr, char *str);
+int					ft_format_output_ptr(t_attr *attr, char *str);
 int					ft_ifdigit(t_attr *attr, va_list arg);
 int					ft_ifptr(t_attr *attr, va_list arg);
 int					ft_print_conv(char **format, va_list arg);
@@ -72,4 +75,6 @@ int					ft_ifstr(t_attr *attr, va_list arg);
 int					ft_ifchar(t_attr *attr, va_list arg);
 int					ft_iffloat(t_attr *attr, va_list arg);
 int					ft_format_output_float(t_attr *attr, char *str);
+int					ft_format_output_char(t_attr *attr, char str);
+size_t				ft_str_len(char *str);
 #endif

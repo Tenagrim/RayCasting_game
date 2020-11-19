@@ -6,7 +6,7 @@
 /*   By: gshona <marvin@42.fr>                      +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2020/11/01 12:26:33 by gshona            #+#    #+#             */
-/*   Updated: 2020/11/03 13:58:12 by gshona           ###   ########.fr       */
+/*   Updated: 2020/11/11 18:10:41 by gshona           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -19,12 +19,22 @@ static void		support(char **format, int *len, char *start)
 	*len = format[0] - start;
 }
 
+static int		support_two(char *start, int len)
+{
+	char	*digit;
+	int		res;
+
+	digit = ft_substr(start, 0, len);
+	res = ft_atoi(digit);
+	free(digit);
+	return (res);
+}
+
 int				ft_get_precision(char **format, va_list arg)
 {
-	int		res;
 	char	*start;
-	char	*digit;
 	int		len;
+	int		tmp;
 
 	if (**format == '.')
 		*format = *format + 1;
@@ -33,7 +43,8 @@ int				ft_get_precision(char **format, va_list arg)
 	if (**format == '*')
 	{
 		*format = *format + 1;
-		return (va_arg(arg, int));
+		tmp = va_arg(arg, int);
+		return (tmp);
 	}
 	start = *format;
 	support(format, &len, start);
@@ -41,9 +52,6 @@ int				ft_get_precision(char **format, va_list arg)
 		return (0);
 	else
 	{
-		digit = ft_substr(start, 0, len);
-		res = ft_atoi(digit);
-		free(digit);
-		return (res);
+		return (support_two(start, len));
 	}
 }

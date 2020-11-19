@@ -6,13 +6,13 @@
 /*   By: gshona <marvin@42.fr>                      +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2020/11/01 12:27:23 by gshona            #+#    #+#             */
-/*   Updated: 2020/11/03 13:58:30 by gshona           ###   ########.fr       */
+/*   Updated: 2020/11/11 18:06:36 by gshona           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include <ft_printf.h>
 
-static int	star_procession (va_list arg)
+static int	star_procession(va_list arg)
 {
 	int tmp;
 
@@ -20,7 +20,7 @@ static int	star_procession (va_list arg)
 	return (tmp);
 }
 
-int		ft_get_width(char **format, va_list arg)
+int			ft_get_width(char **format, va_list arg, t_attr *attr)
 {
 	int		res;
 	char	*start;
@@ -34,15 +34,14 @@ int		ft_get_width(char **format, va_list arg)
 		return (star_procession(arg));
 	}
 	while (ft_isdigit(**format))
-	{
 		*format = *format + 1;
-	}
 	len = format[0] - start;
 	if (len == 0)
-		return (-1);
+		return (0);
 	else
 	{
 		digit = ft_substr(start, 0, len);
+		attr->unset_wid = 0;
 		res = ft_atoi(digit);
 		free(digit);
 		return (res);

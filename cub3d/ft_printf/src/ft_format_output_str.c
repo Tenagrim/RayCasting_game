@@ -6,7 +6,7 @@
 /*   By: gshona <marvin@42.fr>                      +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2020/11/01 12:25:45 by gshona            #+#    #+#             */
-/*   Updated: 2020/11/01 17:07:59 by gshona           ###   ########.fr       */
+/*   Updated: 2020/11/09 19:34:33 by gshona           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -41,14 +41,15 @@ int					ft_format_output_str(t_attr *attr, char *str)
 	int		len;
 	char	space;
 
-	len = (attr->precision != -1 && attr->precision > -1) ? ft_min(attr->precision, ft_strlen(str))
-		: (int)ft_strlen(str);
+	len = (attr->precision != -1 && attr->precision > -1) ?
+		ft_min(attr->precision, ft_strlen(str)) : (int)ft_strlen(str);
 	len = (attr->precision < 0 && !ft_strcmp(str, "(null)")) ? 6 : len;
-	//len = 1;
-	//printf("len: %d\n", len);
-	//printf("str: %s\n", str);
-	space = (attr->conv == '%' && attr->flags & FLAG_ZERO && !(attr->flags & FLAG_MINUS)) ? '0' : ' ';
+	space = (attr->flags & FLAG_ZERO && !(attr->flags & FLAG_MINUS)) ? '0' :
+		' ';
+	space = (attr->conv == '%' && attr->flags & FLAG_ZERO &&
+			!(attr->flags & FLAG_MINUS)) ? '0' : space;
 	spaces = (attr->width != -1) ? attr->width - len : 0;
+	spaces = (spaces < 0) ? 0 : spaces;
 	if (attr->flags & FLAG_MINUS)
 	{
 		putstr_n(str, len);
@@ -56,7 +57,7 @@ int					ft_format_output_str(t_attr *attr, char *str)
 	}
 	else
 	{
-		print_spaces(spaces,space);
+		print_spaces(spaces, space);
 		putstr_n(str, len);
 	}
 	return (len + spaces);

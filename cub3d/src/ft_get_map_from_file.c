@@ -6,6 +6,7 @@ static char		**gen_map(void)
 
 	res = (char**)malloc(sizeof(char*) * 7);
 	res[0] = ft_strdup("11111111111111111111111111111");
+	res[1] = ft_strdup("10000000000000000000000000001");
 	res[2] = ft_strdup("10000000000000000000000000001");
 	res[3] = ft_strdup("10000000000000000000000000001");
 	res[4] = ft_strdup("10000000000000000000000000001");
@@ -18,7 +19,7 @@ t_map			*ft_get_map_from_file(t_list *file)
 {
 	t_map	*res;
 
-	if (file) //FIXME
+	if (!file) //FIXME
 		return (NULL);
 	res = (t_map *)malloc(sizeof(t_map));
 	res->win_width = 800;

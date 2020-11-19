@@ -6,7 +6,7 @@
 /*   By: gshona <marvin@42.fr>                      +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2020/11/01 12:27:58 by gshona            #+#    #+#             */
-/*   Updated: 2020/11/01 12:37:21 by gshona           ###   ########.fr       */
+/*   Updated: 2020/11/11 17:29:53 by gshona           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -76,6 +76,11 @@ int					ft_ifdigit(t_attr *attr, va_list arg)
 		str = if_unsigned(attr, arg);
 	else
 		str = if_signed(attr, arg);
+	if (str[0] != '0' && attr->precision == 0)
+	{
+		attr->precision = -1;
+		attr->wid = 1;
+	}
 	len = ft_format_output_digit(attr, str);
 	free(str);
 	return (len);

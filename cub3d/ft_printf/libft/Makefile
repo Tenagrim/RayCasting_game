@@ -31,11 +31,8 @@ FLAGS = -Wall -Wextra -Werror
 
 all:$(NAME)
 
-$(NAME): $(OBJECTS_P1) $(HEADER)
-	ar -rc $(NAME) $(OBJECTS_P1)
-
-bonus : $(NAME) $(OBJECTS_BONUS) $(HEADER)
-	ar -rc $(NAME) $(OBJECTS_BONUS)
+$(NAME): $(OBJECTS_P1) $(HEADER) $(OBJECTS_BONUS)
+	ar -rc $(NAME) $(OBJECTS_P1) $(OBJECTS_BONUS)
 
 clean :
 	rm -f $(OBJECTS_P1)

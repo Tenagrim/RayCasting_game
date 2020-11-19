@@ -6,7 +6,7 @@
 /*   By: gshona <marvin@42.fr>                      +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2020/11/01 12:25:38 by gshona            #+#    #+#             */
-/*   Updated: 2020/11/01 17:09:33 by gshona           ###   ########.fr       */
+/*   Updated: 2020/11/11 18:14:38 by gshona           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -40,19 +40,21 @@ static int			print_num(t_attr *attr, char *str, int zeros, int lenn)
 	return (len);
 }
 
-static void			minus(char **str)
+static void			minus(char **str, int *len)
 {
 	if (**str == '-')
 	{
 		write(1, "-", 1);
 		*str = *str + 1;
+		*len = *len + 1;
 	}
 }
 
 static void			init(t_attr *attr, int *len, char *space, char *str)
 {
-	*len = (attr->precision) ? (int)ft_strlen(str) : 0;
-	*space = (attr->flags & FLAG_ZERO && !(attr->flags & FLAG_MINUS) && attr->precision == -1) ? '0' : ' ';
+	*len = (attr->precision) ? (int)ft_str_len(str) : 0;
+	*space = (attr->flags & FLAG_ZERO && !(attr->flags & FLAG_MINUS) &&
+			attr->precision <= -1 && attr->wid == 0) ? '0' : ' ';
 }
 
 int					ft_format_output_digit(t_attr *attr, char *str)
@@ -64,22 +66,22 @@ int					ft_format_output_digit(t_attr *attr, char *str)
 
 	init(attr, &len, &space, str);
 	zeros = (attr->precision <= 0) ? 0 : ft_max(attr->precision, len) - len;
-	zeros = (*str == '-' && zeros) ? zeros + 1 : zeros;
-	spaces = (attr->width != -1) ? attr->width - len - zeros : 0;
+	zeros = (*str == '-' && zeros) ? zeros : zeros;
+	spaces = attr->width - len - zeros;
 	spaces = (attr->flags & FLAG_PLUS) ? spaces - 1 : spaces;
+	spaces = (*str == '-') ? spaces - 1 : spaces;
+	spaces = (spaces < 0) ? 0 : spaces;
 	if (space == '0')
-		minus(&str);
+		minus(&str, &len);
 	if (attr->flags & FLAG_MINUS)
 	{
-		minus(&str);
+		minus(&str, &len);
 		print_num(attr, str, zeros, len);
 		print_spaces(spaces, space);
+		return (len + spaces + zeros);
 	}
-	else
-	{
-		print_spaces(spaces, space);
-		minus(&str);
-		print_num(attr, str, zeros, len);
-	}
+	print_spaces(spaces, space);
+	minus(&str, &len);
+	print_num(attr, str, zeros, len);
 	return (len + spaces + zeros);
 }

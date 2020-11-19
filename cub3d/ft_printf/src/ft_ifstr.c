@@ -6,7 +6,7 @@
 /*   By: gshona <marvin@42.fr>                      +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2020/11/01 12:29:23 by gshona            #+#    #+#             */
-/*   Updated: 2020/11/01 16:40:36 by gshona           ###   ########.fr       */
+/*   Updated: 2020/11/11 17:26:23 by gshona           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -20,11 +20,15 @@ int	ft_ifstr(t_attr *attr, va_list arg)
 	str = va_arg(arg, char *);
 	if (!str)
 	{
-		//str = (attr->precision == -1 || attr->precision >= 6) ?
-		str = ft_strdup("(null)"); //: ft_strdup("");
+		str = ft_strdup("(null)");
 		len = ft_format_output_str(attr, str);
 		free(str);
 		return (len);
+	}
+	if (attr->width < 0)
+	{
+		attr->width = -attr->width;
+		attr->flags = attr->flags & FLAG_MINUS;
 	}
 	len = ft_format_output_str(attr, str);
 	return (len);

@@ -61,7 +61,7 @@ typedef struct			s_mlx
 	void				*mlx_ptr;
 	void				*win;
 	t_map				*map;
-	t_img				img;
+	t_img				*img;
 }						t_mlx;
 
 typedef struct			s_player
@@ -78,6 +78,7 @@ typedef struct			s_settings
 	int					numrays;
 	float				depth;
 	t_intpair			win_size;
+	float				sq_size;
 }						t_settings;
 
 typedef struct			s_game
@@ -100,5 +101,6 @@ int						exit_game(t_game *game, int code);
 int						exit_hook(t_game *game);
 int		ft_main_loop(t_game *game);
 void update_window(t_game *game);
+void	ft_print_map(t_map *map);
 
 #endif

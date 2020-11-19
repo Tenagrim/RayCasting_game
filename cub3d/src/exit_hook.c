@@ -6,12 +6,12 @@
 /*   By: gshona <marvin@42.fr>                      +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2020/11/03 15:32:47 by gshona            #+#    #+#             */
-/*   Updated: 2020/11/03 15:33:16 by gshona           ###   ########.fr       */
+/*   Updated: 2020/11/19 23:34:09 by tenagrim         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include <cub3d.h>
-	
+
 int	exit_hook(t_game *game)
 {
 	return (exit_game(game, EXIT_SUCCESS));

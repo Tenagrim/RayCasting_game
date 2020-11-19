@@ -6,13 +6,21 @@
 /*   By: gshona <marvin@42.fr>                      +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2020/10/29 11:24:55 by gshona            #+#    #+#             */
-/*   Updated: 2020/11/01 12:05:29 by gshona           ###   ########.fr       */
+/*   Updated: 2020/11/20 00:23:42 by tenagrim         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "get_next_line.h"
 
-size_t			ft_strlen(const char *str)
+int					ft_free(char **buff)
+{
+	if (*buff)
+		free(*buff);
+	*buff = NULL;
+	return (-1);
+}
+/*
+size_t				ft_strlen(const char *str)
 {
 	size_t len;
 
@@ -23,17 +31,8 @@ size_t			ft_strlen(const char *str)
 		len++;
 	return (len);
 }
-
-char			*ft_stralloc(size_t size)
-{
-	char	*res;
-
-	res = (char*)malloc(sizeof(char) * size + 1);
-	res[size] = '\0';
-	return (res);
-}
-
-static char		*ft_strjoin(char const *s1, char const *s2)
+*/
+char				*ft_str_join(char *s1, char *s2)
 {
 	size_t	len1;
 	size_t	len2;
@@ -42,9 +41,10 @@ static char		*ft_strjoin(char const *s1, char const *s2)
 
 	len1 = ft_strlen(s1);
 	len2 = ft_strlen(s2);
-	res = ft_stralloc(len1 + len2);
+	res = malloc(len1 + len2 + 1);
 	if (!res)
 		return (NULL);
+	res[len1 + len2] = 0;
 	i = 0;
 	while (i < len1)
 	{
@@ -52,6 +52,7 @@ static char		*ft_strjoin(char const *s1, char const *s2)
 		i++;
 	}
 	i = 0;
+	ft_free(&s1);
 	while (i < len2)
 	{
 		res[i + len1] = s2[i];
@@ -59,8 +60,8 @@ static char		*ft_strjoin(char const *s1, char const *s2)
 	}
 	return (res);
 }
-
-char			*ft_strdup(const char *str)
+/*
+char				*ft_strdup(const char *str)
 {
 	char	*res;
 	size_t	len;
@@ -69,9 +70,10 @@ char			*ft_strdup(const char *str)
 	if (!str)
 		return (NULL);
 	len = ft_strlen(str);
-	res = ft_stralloc(len);
+	res = malloc(len + 1);
 	if (!res)
 		return (NULL);
+	res[len] = 0;
 	i = 0;
 	while (i < len)
 	{
@@ -80,18 +82,24 @@ char			*ft_strdup(const char *str)
 	}
 	return (res);
 }
-
-void			ft_strappend(char **str, char *append)
+*/
+char				*ft_str_chr(char *str, int c)
 {
-	char *res;
+	size_t		i;
+	size_t		len;
+	char		value;
 
-	if (!*str)
+	value = (char)c;
+	len = ft_strlen(str);
+	i = 0;
+	while (i < len + 1)
 	{
-		*str = ft_strdup(append);
-		return ;
+		if (str[i] == value)
+		{
+			str[i] = 0;
+			return ((char *)(str + i));
+		}
+		i++;
 	}
-	res = ft_strjoin(*str, append);
-	if (*str)
-		free(*str);
-	*str = res;
+	return (NULL);
 }
