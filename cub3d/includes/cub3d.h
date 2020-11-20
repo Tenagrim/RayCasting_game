@@ -77,7 +77,7 @@ typedef struct			s_settings
 	float				fov;
 	int					numrays;
 	float				depth;
-	t_intpair			win_size;
+	t_intpair			*win_size;
 	float				sq_size;
 }						t_settings;
 
@@ -102,5 +102,7 @@ int						exit_hook(t_game *game);
 int		ft_main_loop(t_game *game);
 void update_window(t_game *game);
 void	ft_print_map(t_map *map);
+t_player	*ft_new_player(void);
+t_settings *ft_default_settings(void);
 
 #endif

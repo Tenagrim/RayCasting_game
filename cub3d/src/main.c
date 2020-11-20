@@ -20,12 +20,12 @@ static t_game	*init_game(char **av)
 	game->map = map;
 	game->mlx = mlx;
 	mlx->mlx_ptr = mlx_init();
+	//ft_printf("{%d}\n", X_EVENT_KEY_PRESS);
 	mlx->win= mlx_new_window(mlx->mlx_ptr, map->win_width, map->win_height, WIN_NAME);
 	mlx->img->img_ptr = mlx_new_image(mlx->mlx_ptr, map->win_width, map->win_height);
-	mlx_hook(mlx->win, X_EVENT_KEY_PRESS, 0, &key_press, &game);
-	mlx_hook(mlx->win, X_EVENT_KEY_RELEASE, 0, &key_release, &game);
-	mlx_hook(mlx->win, X_EVENT_EXIT, 0, &exit_hook, &mlx);
-	//mlx_loop_hook(game.window.ptr, &main_loop, &game);
+	mlx_hook(mlx->win, X_EVENT_KEY_PRESS, 1L<<0, &key_press, &game);
+	mlx_hook(mlx->win, X_EVENT_KEY_RELEASE, 1L<<0, &key_release, &game);
+	mlx_hook(mlx->win, X_EVENT_EXIT, 0L, &exit_hook, &mlx);
 	return (game);
 }
 
@@ -36,6 +36,7 @@ int		main(int ac, char **av)
 	if (!ac || !av)
 		return (1);
 	game = init_game(av);
+	//mlx_loop_hook(game->mlx->mlx_ptr, &ft_main_loop, &game);
 	mlx_loop(game->mlx->mlx_ptr);
 	return (0);
 }

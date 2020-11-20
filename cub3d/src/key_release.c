@@ -6,6 +6,6 @@ int key_release(int keycode, t_game *game)
 		return (0);
 	if (keycode == KEYS_ESC)
 		return (exit_game(game, EXIT_SUCCESS));
-	ft_printf("key code: %d\n", keycode);
+	ft_printf("key released code: %d\n", keycode);
 	return (0);
 }
