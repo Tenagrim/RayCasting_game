@@ -8,7 +8,7 @@ t_settings *ft_default_settings(void)
 	res->fov = M_PI / 3;
 	res->h_fov = M_PI / 6;
 	res->win_size = ft_new_intpair(800, 600);
-	res->numrays = 120;
+	res->numrays = 300;
 	res->delta_angle = res->fov / res->numrays;
 	res->sq_size = 25;
 	res->depth = 500;

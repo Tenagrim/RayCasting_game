@@ -19,17 +19,23 @@ int		draw_rectangle(t_game *game, t_intpair *pos, t_intpair *size, int color)
 	
 	width = game->settings->win_size->x;
 	height = game->settings->win_size->y;
-	if (pos->x < 0 || pos->y + size->y >= height || pos->y < 0 || pos->x + size->x >=width)
-		return (ft_free_local(pos, size));
+	pos->x = (pos->x < 0) ? 0 : pos->x;
+	pos->y = (pos->y < 0) ? 0 : pos->y;
+	//if (pos->x < 0 || pos->y + size->y >= height || pos->y < 0 || pos->x + size->x >=width)
+	//	return (ft_free_local(pos, size));
 	img = game->mlx->img;
 	y = pos->y;
 	while (y < size->y + pos->y)
-	{
-		x = pos->x;
-		while (x < size->x + pos->x)
+	{	
+		if (y >= 0 && y < height)
 		{
-			img->data[y * width + x] = color;
-			x++;
+			x = pos->x;
+			while (x < size->x + pos->x)
+			{
+				if (x >= 0 && x < width)
+					img->data[y * width + x] = color;
+				x++;
+			}
 		}
 		y++;
 	}
