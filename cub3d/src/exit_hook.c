@@ -6,7 +6,7 @@
 /*   By: gshona <marvin@42.fr>                      +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2020/11/03 15:32:47 by gshona            #+#    #+#             */
-/*   Updated: 2020/11/19 23:34:09 by tenagrim         ###   ########.fr       */
+/*   Updated: 2020/11/24 21:27:03 by tenagrim         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -14,5 +14,6 @@
 
 int	exit_hook(t_game *game)
 {
+	ft_printf("exit hook\n");
 	return (exit_game(game, EXIT_SUCCESS));
 }

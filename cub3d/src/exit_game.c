@@ -9,6 +9,13 @@ int exit_game(t_game *game, int code)
 	//clear_textures(game);
 	//clear_sprites(&game->sprites);
 	ft_printf("Exiting with code: %d\n", code);
+
+	ft_printf(">>%p\n", game->mlx->mlx_ptr);
+	if (game)
+	{
+		mlx_do_key_autorepeaton(game->mlx->mlx_ptr);
+		ft_printf("repaet_on\n");
+	}
 	exit(code);
 	return (code);
 }

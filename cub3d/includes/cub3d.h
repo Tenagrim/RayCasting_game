@@ -6,16 +6,9 @@
 # include <ft_printf.h>
 # include <mlx.h>
 # include <math.h>
-
+# include <keys_lin.h>
 # define _USE_MATH_DEFINES
 
-# define KEYS_W 119
-# define KEYS_A 97
-# define KEYS_S 115
-# define KEYS_D 100
-# define KEYS_ESC 53
-# define KEYS_MINUS 45
-# define KEYS_PLUS 61
 # define WIN_NAME "Cub3D"
 
 # define X_EVENT_KEY_PRESS		2
@@ -24,6 +17,12 @@
 # define X_EVENT_MOUSE_RELEASE	5
 # define X_EVENT_MOUSE_MOVE		6
 # define X_EVENT_EXIT			17
+# define MOVE_FLAG_FORW 1
+# define MOVE_FLAG_BACK 2
+# define MOVE_FLAG_LEFT 4
+# define MOVE_FLAG_RIGHT 8
+# define MOVE_FLAG_ROT_L 16
+# define MOVE_FLAG_ROT_R 32
 
 
 typedef struct			s_intpair
@@ -50,9 +49,8 @@ typedef struct			s_img
 
 typedef struct			s_map
 {
-	size_t				win_width;
-	size_t				win_height;
 	char				**map;
+	t_list				*walls;
 	t_intpair			*map_size;
 }						t_map;
 
@@ -66,6 +64,8 @@ typedef struct			s_mlx
 
 typedef struct			s_player
 {
+	float				angle;
+	char				move_flags;
 	t_floatpair			*pos;
 	t_floatpair			*move;
 	float				move_speed;
@@ -75,10 +75,15 @@ typedef struct			s_player
 typedef struct			s_settings
 {
 	float				fov;
-	int					numrays;
-	float				depth;
+	float				h_fov;
+	float				dist;
+	float				scale;
+	float				proj_coeff;
+	float				delta_angle;
+	size_t					numrays;
+	int				depth;
 	t_intpair			*win_size;
-	float				sq_size;
+	int				sq_size;
 }						t_settings;
 
 typedef struct			s_game
@@ -104,5 +109,10 @@ void update_window(t_game *game);
 void	ft_print_map(t_map *map);
 t_player	*ft_new_player(void);
 t_settings *ft_default_settings(void);
+int	draw_rectangle(t_game *game, t_intpair *pos, t_intpair *size, int color);
+void	clear_window(t_game *game, int color);
+void	draw_pixel(t_game *game, int x, int y, int color);
+int	draw_line(t_game *game, t_intpair *start, t_intpair *stop, int color);
+void	draw_map(t_game *game);
 
 #endif

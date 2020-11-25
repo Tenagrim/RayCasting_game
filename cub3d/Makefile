@@ -7,14 +7,14 @@ MLX_LIN = libmlx.a
 SRC_DIR = src/
 OBJ_DIR = src/
 SRC_FILES = $(SRC_DIR)*.c gnl/*.c
-FLAGS = -Wall -Wextra -Werror -Iincludes/ -O2 -g #FIXME
+FLAGS = -Wall -Wextra  -Iincludes/ -O0 -g #FIXME
 INC=/usr/include #FIXME
 INCLIB=$(INC)/../lib #FIXME
 SRC = $(addprefix $(SRC_DIR), $(SRC_FILES))
 OBJ_FILES = $(addprefix $(OBJ_DIR), $(SRC_FILES:.c=.o))
 LIBS_MAC = -Lmlx -lmlx -framework OpenGL -framework AppKit -lm
 #CC= gcc $(FLAGS)
-CC= gcc -g $(FLAGS) -I$(INC) #FIXME
+CC= gcc $(FLAGS) -I$(INC) #FIXME
 
 all :  $(NAME)
 
