@@ -13,12 +13,11 @@ static t_game	*init_game(char **av)
 	game->player = ft_new_player();
 	file = ft_read_file(av[1]);
 	map = ft_get_map_from_file(file);
-	ft_print_map(map);
+	//ft_print_map(map);
 	mlx = (t_mlx*)malloc(sizeof(t_mlx));
 	mlx->mlx_ptr = mlx_init();
 	mlx->img = (t_img*)malloc(sizeof(t_img));
 	mlx->img->img_ptr = mlx_new_image(mlx->mlx_ptr, game->settings->win_size->x, game->settings->win_size->y);
-	//mlx->img->img_ptr = mlx_new_image(mlx->mlx_ptr, 100,100);
 	mlx->img->data = (int *)mlx_get_data_addr(mlx->img->img_ptr, &(mlx->img->bpp), &(mlx->img->size_l), &(mlx->img->endian));
 
 	//ft_print_file(file);
@@ -45,7 +44,7 @@ int		main(int ac, char **av)
 	if (ac < 2 || ac > 3)
 		exit_game(game, 1);
 	game = init_game(av);
-	ft_printf(">>%p\n", game->mlx->mlx_ptr);
+	game->map->textures[0] = load_texture(game, "textures/cropped_11.xpm");
 	mlx_loop_hook(game->mlx->mlx_ptr, &ft_main_loop, game);
 	mlx_loop(game->mlx->mlx_ptr);
 	return (0);

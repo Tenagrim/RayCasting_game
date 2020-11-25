@@ -12,5 +12,6 @@
 # define KEYS_R_ARROW 65363
 # define KEYS_U_ARROW 65362
 # define KEYS_D_ARROW 65364
+# define KEYS_L_SHIFT 65505
 #endif
 

@@ -21,5 +21,7 @@ int	key_press(int keycode, t_game *game)
 		game->player->move_flags = game->player->move_flags | MOVE_FLAG_ROT_L;
 	else if (keycode == KEYS_R_ARROW)
 		game->player->move_flags = game->player->move_flags | MOVE_FLAG_ROT_R;
+	else if (keycode == KEYS_L_SHIFT)
+		game->player->move_speed = game->player->run_speed;
 	return (0);
 }

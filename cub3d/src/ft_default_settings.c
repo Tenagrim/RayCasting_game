@@ -8,12 +8,14 @@ t_settings *ft_default_settings(void)
 	res->fov = M_PI / 3;
 	res->h_fov = M_PI / 6;
 	res->win_size = ft_new_intpair(800, 600);
-	res->numrays = 300;
+	res->numrays = 50;
 	res->delta_angle = res->fov / res->numrays;
 	res->sq_size = 25;
 	res->depth = 500;
 	res->dist = res->numrays / (2 * tan(res->h_fov));
 	res->scale = res->win_size->x / res->numrays;
+	res->texture_size = ft_new_intpair(64, 64);
+	res->texture_scale = floor(res->texture_size->x / (float)res->sq_size);
 	res->proj_coeff = res->dist * res->sq_size;
 	return (res);
 }

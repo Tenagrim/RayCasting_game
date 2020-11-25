@@ -18,6 +18,8 @@ int key_release(int keycode, t_game *game)
 		game->player->move_flags = game->player->move_flags & ~(MOVE_FLAG_ROT_L);
 	else if (keycode == KEYS_R_ARROW)
 		game->player->move_flags = game->player->move_flags & ~(MOVE_FLAG_ROT_R);
+	else if (keycode == KEYS_L_SHIFT)
+		game->player->move_speed = game->player->walk_speed;
 	ft_printf("key released code: %d\n", keycode);
 
 	//ft_printf(">>%p\n", game->mlx->mlx_ptr);

@@ -10,15 +10,15 @@ static char		**gen_map(void)
 	res[2] = ft_strdup("10111110100000000000011100001");
 	res[3] = ft_strdup("10000000101000000000000100001");
 	res[4] = ft_strdup("10000000010000010101000100001");
-	res[5] = ft_strdup("10100111000010000000000100001");
-	res[6] = ft_strdup("10100111000010001000000100001");
-	res[7] = ft_strdup("10100111001000000000000100001");
-	res[8] = ft_strdup("10100000001110001000000100001");
-	res[9] = ft_strdup("10000011110100000000000100001");
-	res[10] = ft_strdup("10000000000000000000000000001");
-	res[11] = ft_strdup("10000011111111110000000000001");
-	res[12] = ft_strdup("10000011111110110000000000001");
-	res[13] = ft_strdup("10000000000000010000000000001");
+	res[5] = ft_strdup("10100111000010000000001100001");
+	res[6] = ft_strdup("10100111000010001010100100001");
+	res[7] = ft_strdup("10100111001000000000011100001");
+	res[8] = ft_strdup("10110000001110001010101100001");
+	res[9] = ft_strdup("10010011110100000000000100001");
+	res[10] = ft_strdup("10100000000000000000000000001");
+	res[11] = ft_strdup("10101011000111110000000000001");
+	res[12] = ft_strdup("10001011101110110000000000001");
+	res[13] = ft_strdup("10101000000000010000000000001");
 	res[14] = ft_strdup("10000000000000000000000000001");
 	res[15] = ft_strdup("11111111111111111111111111111");
 	return (res);
@@ -56,6 +56,7 @@ t_map			*ft_get_map_from_file(t_list *file)
 	if (!file) //FIXME
 		return (NULL);
 	res = (t_map *)malloc(sizeof(t_map));
+	res->textures = (t_img **)malloc(sizeof(t_img*) * 5);
 	res->map = gen_map();
 	res->map_size = ft_new_intpair(ft_strlen(res->map[0]), 16);
 	res->walls = get_walls(res);

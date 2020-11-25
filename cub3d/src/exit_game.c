@@ -14,7 +14,7 @@ int exit_game(t_game *game, int code)
 	if (game)
 	{
 		mlx_do_key_autorepeaton(game->mlx->mlx_ptr);
-		ft_printf("repaet_on\n");
+		ft_printf("repeat_on\n");
 	}
 	exit(code);
 	return (code);

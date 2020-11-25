@@ -41,16 +41,21 @@ typedef struct			s_floatpair
 typedef struct			s_img
 {
 	void				*img_ptr;
+	int					width;
+	int					height;
 	int					*data;
 	int					size_l;
 	int					bpp;
 	int					endian;
+	int					offset;
+	int					shadow;
 }						t_img;
 
 typedef struct			s_map
 {
 	char				**map;
 	t_list				*walls;
+	t_img				**textures;
 	t_intpair			*map_size;
 }						t_map;
 
@@ -58,7 +63,6 @@ typedef struct			s_mlx
 {
 	void				*mlx_ptr;
 	void				*win;
-	t_map				*map;
 	t_img				*img;
 }						t_mlx;
 
@@ -69,6 +73,8 @@ typedef struct			s_player
 	t_floatpair			*pos;
 	t_floatpair			*move;
 	float				move_speed;
+	float				run_speed;
+	float				walk_speed;
 	float				rot_speed;
 }						t_player;
 
@@ -84,6 +90,8 @@ typedef struct			s_settings
 	int				depth;
 	t_intpair			*win_size;
 	int				sq_size;
+	t_intpair			*texture_size;
+	float				texture_scale;
 }						t_settings;
 
 typedef struct			s_game
@@ -114,5 +122,7 @@ void	clear_window(t_game *game, int color);
 void	draw_pixel(t_game *game, int x, int y, int color);
 int	draw_line(t_game *game, t_intpair *start, t_intpair *stop, int color);
 void	draw_map(t_game *game);
+t_img	*load_texture(t_game *game, char *filename);
+int		draw_textured_rectangle(t_game *game, t_intpair *pos, t_intpair *size, t_img *texture);
 
 #endif

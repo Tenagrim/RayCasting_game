@@ -1,5 +1,15 @@
 #include <cub3d.h>
 
+static float	ft_f_min(float a, float b)
+{
+	return ((a < b) ? a : b);
+}
+
+static float	ft_f_max(float a, float b)
+{
+	return ((a > b) ? a : b);
+}
+
 static int	hit(t_game *game, int x, int y)
 {
 	t_list		*p;
@@ -52,6 +62,8 @@ static void	raycast_im(t_game *game)
 	int		j;
 	float		d;
 	int		x;
+	int		yv;
+	int		xh;
 	int		dx;
 	int		y;
 	int		dy;
@@ -77,8 +89,8 @@ static void	raycast_im(t_game *game)
 		while (j < game->map->map_size->x)
 		{
 			depth.x = (x - start_pos.x) / cos_a; 
-			y = start_pos.y + depth.x * sin_a;
-			if (hit(game, (x + dx) / game->settings->sq_size, y / game->settings->sq_size))
+			yv = start_pos.y + depth.x * sin_a;
+			if (hit(game, (x + dx) / game->settings->sq_size, yv / game->settings->sq_size))
 				break ;
 			x += dx * game->settings->sq_size;
 			j++;
@@ -90,65 +102,29 @@ static void	raycast_im(t_game *game)
 		while (j < game->map->map_size->y)
 		{
 			depth.y = (y - start_pos.y) / sin_a;
-			x = start_pos.x + depth.y * cos_a;
-			if (hit(game, x / game->settings->sq_size, (y + dy) / game->settings->sq_size))
+			xh = start_pos.x + depth.y * cos_a;
+			if (hit(game, xh / game->settings->sq_size, (y + dy) / game->settings->sq_size))
 				break ;
 			y += dy * game->settings->sq_size;
 			j ++;
 		}
+		// projection
 		d = (depth.x < depth.y) ? depth.x : depth.y;
+		game->map->textures[0]->offset = (depth.x < depth.y) ? yv : xh;
+		game->map->textures[0]->offset %= game->settings->sq_size; 
 		d *= cos(game->player->angle - cur_angle);
-		proj_heihgt = game->settings->proj_coeff / d * 2;
-		c = 255 / (1 + d * d * 0.001);
+		d = ft_f_max(d, 0.00001);
+		//proj_heihgt = game->settings->proj_coeff / d * 3,
+		proj_heihgt = ft_f_min(game->settings->proj_coeff / d * 2, game->settings->win_size->y);
+		c = 255 / (1 + d * d * 0.00007);
+		game->map->textures[0]->shadow = c;
 		//draw_line(game, ft_new_intpair(start_pos.x, start_pos.y), ft_new_intpair(x, y), 0xAAAAAA);
-		//ft_printf("%d   %d\n",x, y);
-		draw_rectangle(game, ft_new_intpair( i * game->settings->scale, game->settings->win_size->y / 2 - proj_heihgt / 2),ft_new_intpair( game->settings->scale, proj_heihgt), 0 | c<<16 | c<<8 | c);
+		draw_textured_rectangle(game, ft_new_intpair( i * game->settings->scale  , game->settings->win_size->y / 2 - proj_heihgt / 2),ft_new_intpair(game->settings->scale , proj_heihgt), game->map->textures[0]);
+		//draw_rectangle(game, ft_new_intpair( i * game->settings->scale, game->settings->win_size->y / 2 - proj_heihgt / 2),ft_new_intpair( game->settings->scale, proj_heihgt), 0 | c<<16 | c<<8 | c);
 		i++;
 		cur_angle += game->settings->delta_angle;
 	}
 
-}
-
-static void	raycast(t_game *game)
-{
-	float		cur_angle;
-	t_floatpair	start_pos;
-	size_t		i;
-	float		j;
-	float		sin_a;
-	float		cos_a;
-	int		x;
-	int		y;
-	int		proj_heihgt;
-	int		c;
-
-	start_pos.x = game->player->pos->x;
-	start_pos.y = game->player->pos->y;
-	cur_angle = game->player->angle - game->settings->h_fov;
-	i = 0;
-	while (i < game->settings->numrays)
-	{
-		sin_a = sin(cur_angle);
-		cos_a = cos(cur_angle);
-		j = 0;
-		while (j < game->settings->depth)
-		{
-			x = start_pos.x + j * cos_a;
-			y = start_pos.y + j * sin_a;
-			//draw_line(game, ft_new_intpair(start_pos.x, start_pos.y), ft_new_intpair(x, y), 0xAAAAAA);
-			if (hit(game, x / game->settings->sq_size, y / game->settings->sq_size))
-			{
-				j *= cos(game->player->angle - cur_angle);
-				proj_heihgt = game->settings->proj_coeff / j * 2;
-				c = 255 / (1 + j * j * 0.001);
-				draw_rectangle(game, ft_new_intpair( i * game->settings->scale, game->settings->win_size->y / 2 - proj_heihgt / 2),ft_new_intpair( game->settings->scale, proj_heihgt), 0 | c<<16 | c<<8 | c);
-				break ;
-			}
-			j += 1;
-		}
-		i++;
-		cur_angle += game->settings->delta_angle;
-	}
 }
 
 static void	movement(t_game *game)
@@ -193,6 +169,7 @@ int		ft_main_loop(t_game *game)
 	raycast_im(game);
 	draw_map(game);
 	update_window(game);
+	//mlx_put_image_to_window(game->mlx->mlx_ptr, game->mlx->win, game->map->textures[0]->img_ptr, 0, 0);
 	//ft_printf(">>%p\n", game->mlx->mlx_ptr);
 	//ft_printf("%d \n", i++);
 	return (0);
