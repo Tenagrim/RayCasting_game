@@ -40,7 +40,7 @@ static t_list		*get_walls(t_map *map)
 			if (map->map[i][j] == '1')
 			{
 				ft_lstadd_front(&res, ft_lstnew((void *)ft_new_intpair(j, i)));
-				ft_printf("wall: %d   %d\n", j, i);
+				//ft_printf("wall: %d   %d\n", j, i);
 			}
 			j++;
 		}
