@@ -44,7 +44,7 @@ int		main(int ac, char **av)
 	if (ac < 2 || ac > 3)
 		exit_game(game, 1);
 	game = init_game(av);
-	game->map->textures[0] = load_texture(game, "textures/cropped_11.xpm");
+	game->map->textures[0] = load_texture(game, "textures/cropped_1.xpm");
 	mlx_loop_hook(game->mlx->mlx_ptr, &ft_main_loop, game);
 	mlx_loop(game->mlx->mlx_ptr);
 	return (0);
