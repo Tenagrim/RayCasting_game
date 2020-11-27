@@ -64,7 +64,6 @@ static void	raycast_im(t_game *game)
 	start_pos.y = game->player->pos->y;
 	get_tile(&cur_tile, game->player->pos, game->settings->sq_size);
 	cur_angle = game->player->angle - game->settings->h_fov;
-	//ft_printf("%d   %d\n", cur_tile.x, cur_tile.y);
 	i = 0;
 	depth.x = 0;
 	depth.y = 0;
@@ -153,9 +152,7 @@ int		ft_main_loop(t_game *game)
 
 
 	clear_window(game, 0);
-	//draw_line(game, ft_new_intpair(0,0), ft_new_intpair(100,100), 0xFFFFFF);
 	movement(game);
-	//raycast(game);
 	raycast_im(game);
 	if (game->settings->settings & SETT_MAP_ON)
 		draw_map(game);

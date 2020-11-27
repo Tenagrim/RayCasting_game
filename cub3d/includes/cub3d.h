@@ -20,15 +20,25 @@
 # define X_EVENT_MOUSE_RELEASE	5
 # define X_EVENT_MOUSE_MOVE		6
 # define X_EVENT_EXIT			17
-# define MOVE_FLAG_FORW 1<<0
-# define MOVE_FLAG_BACK 1<<1
-# define MOVE_FLAG_LEFT 1<<2
-# define MOVE_FLAG_RIGHT 1<<3
-# define MOVE_FLAG_ROT_L 1<<4
-# define MOVE_FLAG_ROT_R 1<<5
-# define SETT_SHADOWS_ON 1<<0
-# define SETT_MAP_ON 1<<1
-# define SETT_COLL_ON 1<<2
+# define MOVE_FLAG_FORW	1<<0
+# define MOVE_FLAG_BACK	1<<1
+# define MOVE_FLAG_LEFT	1<<2
+# define MOVE_FLAG_RIGHT	1<<3
+# define MOVE_FLAG_ROT_L	1<<4
+# define MOVE_FLAG_ROT_R	1<<5
+# define SETT_SHADOWS_ON	1<<0
+# define SETT_MAP_ON	1<<1
+# define SETT_COLL_ON	1<<2
+# define SETT_COLL_ON	1<<2
+# define PARSE_RES_FOUND	1<<0
+# define PARSE_N_TEX_FOUND	1<<1
+# define PARSE_W_TEX_FOUND	1<<2
+# define PARSE_S_TEX_FOUND	1<<3
+# define PARSE_E_TEX_FOUND	1<<4
+# define PARSE_SPRITE_TEX_FOUND	1<<5
+# define PARSE_C_COLOR_FOUND	1<<6
+# define PARSE_F_COLOR_FOUND	1<<7
+# define MAP_CHARS "NWSE012"
 
 
 typedef struct			s_intpair
@@ -62,6 +72,7 @@ typedef struct			s_map
 	char				**map;
 	t_list				*walls;
 	t_img				**textures;
+	char				**texture_paths;
 	t_intpair			*map_size;
 }						t_map;
 
@@ -101,6 +112,7 @@ typedef struct			s_settings
 	int				floor_color;
 	int				ceil_color;
 	char				settings;
+	char				parse_finds;
 }						t_settings;
 
 typedef struct			s_game
@@ -115,7 +127,7 @@ t_list					*ft_read_file(char *filename);
 void					ft_print_file(t_list *file);
 t_intpair				*ft_new_intpair(int x, int y);
 t_floatpair		*ft_new_floatpair(float	x, float y);
-t_map					*ft_get_map_from_file(t_list *file);
+t_map					*ft_get_map_from_file(t_game *game, char *filename);
 
 int						key_press(int keycode, t_game *game);
 int						key_release(int keycode, t_game *game);

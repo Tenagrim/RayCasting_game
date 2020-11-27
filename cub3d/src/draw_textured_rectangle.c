@@ -56,7 +56,7 @@ static void	crop_vert(t_game *game, t_intpair *pos, t_intpair *coords, int *low_
 	}
 }
 
-int		draw_textured_rectangle(t_game *game, t_intpair *pos, t_intpair *size, t_img *texture)
+int		draw_textured_rectangle(t_game *game, t_intpair *pos, t_intpair *size, t_img *tex)
 {
 	t_intpair	coords;
 	t_intpair	t_pos;
@@ -71,10 +71,13 @@ int		draw_textured_rectangle(t_game *game, t_intpair *pos, t_intpair *size, t_im
 		coords.x = pos->x;
 		while (coords.x < size->x + pos->x)
 		{
-			t_pos.x = ((coords.x - pos->x) / game->settings->scale) + texture->offset;
-			t_pos.y = ft_map_zero(coords.y - pos->y, size->y, texture->height);
-			c = texture->data[t_pos.y * texture->width + t_pos.x];
-			c = (game->settings->settings & SETT_SHADOWS_ON) ? FT_MAX(0, ((((c & 0xFF0000) >> 16) - texture->shadow)<<16)) | FT_MAX(0 ,((((c & 0x00FF00) >> 8) - texture->shadow) << 8)) | FT_MAX(0,((c & 0x0000FF) - texture->shadow)) : c;
+			t_pos.x = ((coords.x - pos->x) / size->x) + tex->offset;
+			t_pos.y = ft_map_zero(coords.y - pos->y, size->y, tex->height);
+			c = tex->data[t_pos.y * tex->width + t_pos.x];
+			c = (game->settings->settings & SETT_SHADOWS_ON) ?
+			FT_MAX(0, ((((c & 0xFF0000) >> 16) - tex->shadow) << 16)) |
+			FT_MAX(0, ((((c & 0x00FF00) >> 8) - tex->shadow) << 8)) |
+			FT_MAX(0, ((c & 0x0000FF) - tex->shadow)) : c;
 			game->mlx->img->data[coords.y * game->settings->win_size->x + coords.x] = c;
 			coords.x++;
 		}

@@ -5,14 +5,11 @@ static t_game	*init_game(char **av)
 	t_mlx		*mlx;
 	t_game		*game;
 	t_map		*map;
-	t_list		*file;
 
-	file = NULL;
 	game = (t_game*)malloc(sizeof(t_game));
 	game->settings = ft_default_settings();
 	game->player = ft_new_player();
-	file = ft_read_file(av[1]);
-	map = ft_get_map_from_file(file);
+	map = ft_get_map_from_file(game, av[1]);
 	//ft_print_map(map);
 	mlx = (t_mlx*)malloc(sizeof(t_mlx));
 	mlx->mlx_ptr = mlx_init();

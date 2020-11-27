@@ -8,7 +8,7 @@ int exit_game(t_game *game, int code)
 	//clear_window(&game->window);
 	//clear_textures(game);
 	//clear_sprites(&game->sprites);
-	ft_printf("Exiting with code: %d\n", code);
+	ft_printf("Exiting with code: %d\n", code); //FIXME write to stderr
 
 	ft_printf(">>%p\n", game->mlx->mlx_ptr);
 	if (game)

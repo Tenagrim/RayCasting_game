@@ -21,5 +21,6 @@ t_settings *ft_default_settings(void)
 	res->ceil_color = 0;
 	res->settings = SETT_SHADOWS_ON | SETT_MAP_ON;
 	ft_printf("scale: %f\n", res->scale);
+	res->parse_finds = 0;
 	return (res);
 }
