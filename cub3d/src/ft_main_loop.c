@@ -39,7 +39,23 @@ static void	get_tile(t_intpair *res, t_floatpair *pos, int sq_size)
 	res->x = pos->x / sq_size;
 	res->y = pos->y / sq_size;
 }
-
+static int	get_tex_ind(t_game *game, t_floatpair *depth, int x, int y)
+{
+	if (depth->x < depth->y)
+	{
+		if (game->player->pos->x < x)
+			return (1);
+		else
+			return (3);
+	}
+	else
+	{
+		if (game->player->pos->y < y)
+			return (0);
+		else
+			return (2);
+	}
+}
 static void	raycast_im(t_game *game)
 {
 	t_intpair	cur_tile;
@@ -58,7 +74,6 @@ static void	raycast_im(t_game *game)
 	int		y;
 	int		dy;
 	int		proj_heihgt;
-	int		c;
 	int		tex_ind;
 
 	start_pos.x = game->player->pos->x;
@@ -99,34 +114,18 @@ static void	raycast_im(t_game *game)
 			j ++;
 		}
 		// projection
+		tex_ind = get_tex_ind(game, &depth, x, y);
 		d = (depth.x < depth.y) ? depth.x : depth.y;
-		if (depth.x < depth.y)
-		{
-			if (game->player->pos->x < x)
-				tex_ind = 0;
-			else
-				tex_ind = 1;
-		}
-		else
-		{
-			if (game->player->pos->y < y)
-				tex_ind = 2;
-			else
-				tex_ind = 3;
-		}
 		game->map->textures[tex_ind]->offset = (depth.x < depth.y) ? yv : xh;
 		//ft_printf(">>>%d\n", tex_ind);
 		game->map->textures[tex_ind]->offset %= game->settings->sq_size; 
 		d *= cos(game->player->angle - cur_angle);
 		d = FT_MAX(d, 0.00001);
 		proj_heihgt = game->settings->proj_coeff / d * 2.5,
-		//proj_heihgt = ft_f_min(game->settings->proj_coeff / d * 2, game->settings->win_size->y);
-		c = 255 / (1 + d * d * 0.000027);
-		game->map->textures[tex_ind]->shadow = 255 - c;
+		game->map->textures[tex_ind]->shadow = 255 - (255 / (1 + d * d * 0.000027));
 		//draw_line(game, ft_new_intpair(start_pos.x, start_pos.y), ft_new_intpair(x, y), 0xAAAAAA);
 		//ft_printf("[%x]\n", game->map->textures[tex_ind]->data[0]);
 		draw_textured_rectangle(game, ft_new_intpair( (i * game->settings->scale)  , game->settings->win_size->y / 2 - proj_heihgt / 2),ft_new_intpair((game->settings->scale + 1) , proj_heihgt), game->map->textures[tex_ind]);
-		//draw_rectangle(game, ft_new_intpair( i * game->settings->scale, game->settings->win_size->y / 2 - proj_heihgt / 2),ft_new_intpair( game->settings->scale, proj_heihgt), 0 | c<<16 | c<<8 | c);
 		i++;
 		cur_angle += game->settings->delta_angle;
 	}
@@ -174,11 +173,11 @@ int		ft_main_loop(t_game *game)
 	if (game->settings->settings & SETT_MAP_ON)
 		draw_map(game);
 	update_window(game);
-	mlx_put_image_to_window(game->mlx->mlx_ptr, game->mlx->win, game->map->textures[0]->img_ptr, 0, 0);
-	mlx_put_image_to_window(game->mlx->mlx_ptr, game->mlx->win, game->map->textures[1]->img_ptr, 64, 0);
-	mlx_put_image_to_window(game->mlx->mlx_ptr, game->mlx->win, game->map->textures[2]->img_ptr, 64 * 2, 0);
-	mlx_put_image_to_window(game->mlx->mlx_ptr, game->mlx->win, game->map->textures[3]->img_ptr, 64 * 3, 0);
-	mlx_put_image_to_window(game->mlx->mlx_ptr, game->mlx->win, game->map->textures[4]->img_ptr, 64 * 4, 0);
+	//mlx_put_image_to_window(game->mlx->mlx_ptr, game->mlx->win, game->map->textures[0]->img_ptr, 0, 0);
+	//mlx_put_image_to_window(game->mlx->mlx_ptr, game->mlx->win, game->map->textures[1]->img_ptr, 64, 0);
+	//mlx_put_image_to_window(game->mlx->mlx_ptr, game->mlx->win, game->map->textures[2]->img_ptr, 64 * 2, 0);
+	//mlx_put_image_to_window(game->mlx->mlx_ptr, game->mlx->win, game->map->textures[3]->img_ptr, 64 * 3, 0);
+	//mlx_put_image_to_window(game->mlx->mlx_ptr, game->mlx->win, game->map->textures[4]->img_ptr, 64 * 4, 0);
 	//ft_printf(">>%p\n", game->mlx->mlx_ptr);
 	//ft_printf("%d \n", i++);
 	return (0);
