@@ -40,7 +40,6 @@ static t_list		*get_walls(t_map *map)
 			if (map->map[i][j] == '1')
 			{
 				ft_lstadd_front(&res, ft_lstnew((void *)ft_new_intpair(j, i)));
-				//ft_printf("wall: %d   %d\n", j, i);
 			}
 			j++;
 		}
@@ -51,55 +50,95 @@ static t_list		*get_walls(t_map *map)
 
 static int		get_tex_ind(char *dir)
 {
-	if (!ft_strcmp(dir, "NO"))
+	if (!ft_strcmp(dir, "NO "))
 		return (0);
-	else if (!ft_strcmp(dir, "WE"))
+	else if (!ft_strcmp(dir, "WE "))
 		return (1);
-	else if (!ft_strcmp(dir, "SO"))
+	else if (!ft_strcmp(dir, "SO "))
 		return (2);
-	else if (!ft_strcmp(dir, "EA"))
+	else if (!ft_strcmp(dir, "EA "))
 		return (3);
-	else if (!ft_strcmp(dir, "S"))
+	else if (!ft_strcmp(dir, "S "))
 		return (4);
 	return (-1);
 }
 
-static int		get_tex_path(t_game *game, t_list *file, char *dir)
+static char		*find_line(t_list *file, char *key)
 {
 	t_list *p;
-	int	ind;
+	char	*res;
+	char	*susp;
 
 	p = file;
-	ind = get_tex_ind(dir);
+	res = NULL;
 	while (p)
 	{
-		if (ft_strncmp((char*)(p->content), dir, 2))
-		{
-			if (game->settings->parse_finds & 1 << (ind + 1))
-				return (0);
-			game->settings->parse_finds |= 1 << (ind + 1);
-			game->map->texture_paths[ind] = ft_strdup((char*)(p->content) + ft_strlen(dir));
-			return (1);
-		}
+		susp = (char *)(p->content);
+		if (!ft_strncmp(susp, key, ft_strlen(key)))
+			return (susp);
 		p = p->next;
 	}
-	return (0);
+	return (res);
+}
+
+static int		get_tex_path(t_game *game, t_list *file, char *dir)
+{
+	int	ind;
+	char	*line;
+
+	line = find_line(file, dir);
+	ind = get_tex_ind(dir);
+	if (game->settings->parse_finds & 1 << (ind + 1) || !line)
+		return (0);
+	game->settings->parse_finds |= 1 << (ind + 1);
+	game->map->texture_paths[ind] = ft_strdup(line + ft_strlen(dir));
+	return (1);
 }
 
 static int		parse_tex_paths(t_game *game, t_list *file)
 {
-	if (get_tex_path(game, file, "NO") &&
-			get_tex_path(game, file, "WE") &&
-			get_tex_path(game, file, "SO") &&
-			get_tex_path(game, file, "EA") &&
-			get_tex_path(game, file, "S"))
+	if (get_tex_path(game, file, "NO ") &&
+			get_tex_path(game, file, "WE ") &&
+			get_tex_path(game, file, "SO ") &&
+			get_tex_path(game, file, "EA ") &&
+			get_tex_path(game, file, "S "))
 		return (1);
 	return (0);
 }
 
 static int		parse_res(t_game *game, t_list *file)
 {
-	
+	char		*line;
+	char		**digits; 	//FIXME need to free
+	t_intpair	res;
+
+	line = find_line(file, "R ");
+	if (game->settings->parse_finds & PARSE_RES_FOUND || !line)
+		return (0);
+	digits = ft_split(line + 2, ' ');
+	res.x = ft_atoi(digits[0]);
+	res.y = ft_atoi(digits[1]);
+	if (res.x <= 0 || res.y <= 0)
+		return (0);
+	game->settings->win_size->x = res.x;
+	game->settings->win_size->y = res.y;
+	return (1);
+}
+
+static int		load_textures(t_game *game)
+{
+	int	i;
+	t_img	*img;
+	i = 0;
+	while (i < 5)
+	{
+		img = load_texture(game, game->map->texture_paths[i]);
+		if (!img)
+			return (0);
+		game->map->textures[i] = img;
+		i++;
+	}
+	return (1);
 }
 
 t_map			*ft_get_map_from_file(t_game *game, char *filename)
@@ -110,11 +149,26 @@ t_map			*ft_get_map_from_file(t_game *game, char *filename)
 	file = ft_read_file(filename);
 	if (!file)
 		return (0); //FIXME
-	res = (t_map *)malloc(sizeof(t_map));
+	if (!(res = (t_map *)malloc(sizeof(t_map))))
+		return (NULL);
 	res->textures = (t_img **)malloc(sizeof(t_img*) * 5);
-	res->texture_paths = (char **)malloc(sizeof(char) * 5);
+	res->texture_paths = (char **)malloc(sizeof(char*) * 5);
 	res->map = gen_map();
 	res->map_size = ft_new_intpair(ft_strlen(res->map[0]), 16);
 	res->walls = get_walls(res);
-	return (res);
+	game->map = res;
+	if (parse_tex_paths(game, file) && parse_res(game, file))
+	{
+		ft_printf("textures: \n");
+		ft_printf("[%s]\n", res->texture_paths[0]);
+		ft_printf("[%s]\n", res->texture_paths[1]);
+		ft_printf("[%s]\n", res->texture_paths[2]);
+		ft_printf("[%s]\n", res->texture_paths[3]);
+		ft_printf("[%s]\n", res->texture_paths[4]);
+		if (!load_textures(game))
+			return (NULL);
+		return (res);
+	}
+	else
+		return NULL;
 }
