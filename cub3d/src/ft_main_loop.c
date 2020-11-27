@@ -1,15 +1,5 @@
 #include <cub3d.h>
 
-static float	ft_f_min(float a, float b)
-{
-	return ((a < b) ? a : b);
-}
-
-static float	ft_f_max(float a, float b)
-{
-	return ((a > b) ? a : b);
-}
-
 static int	hit(t_game *game, int x, int y)
 {
 	t_list		*p;
@@ -78,7 +68,7 @@ static void	raycast_im(t_game *game)
 	i = 0;
 	depth.x = 0;
 	depth.y = 0;
-	while (i < game->settings->numrays)
+	while (i < game->settings->numrays + 1)
 	{
 		sin_a = sin(cur_angle);
 		cos_a = cos(cur_angle);
@@ -113,13 +103,13 @@ static void	raycast_im(t_game *game)
 		game->map->textures[0]->offset = (depth.x < depth.y) ? yv : xh;
 		game->map->textures[0]->offset %= game->settings->sq_size; 
 		d *= cos(game->player->angle - cur_angle);
-		d = ft_f_max(d, 0.00001);
-		//proj_heihgt = game->settings->proj_coeff / d * 3,
-		proj_heihgt = ft_f_min(game->settings->proj_coeff / d * 2, game->settings->win_size->y);
-		c = 255 / (1 + d * d * 0.00007);
-		game->map->textures[0]->shadow = c;
+		d = FT_MAX(d, 0.00001);
+		proj_heihgt = game->settings->proj_coeff / d * 2.5,
+		//proj_heihgt = ft_f_min(game->settings->proj_coeff / d * 2, game->settings->win_size->y);
+		c = 255 / (1 + d * d * 0.000027);
+		game->map->textures[0]->shadow = 255 - c;
 		//draw_line(game, ft_new_intpair(start_pos.x, start_pos.y), ft_new_intpair(x, y), 0xAAAAAA);
-		draw_textured_rectangle(game, ft_new_intpair( i * game->settings->scale  , game->settings->win_size->y / 2 - proj_heihgt / 2),ft_new_intpair(game->settings->scale , proj_heihgt), game->map->textures[0]);
+		draw_textured_rectangle(game, ft_new_intpair( (i * game->settings->scale)  , game->settings->win_size->y / 2 - proj_heihgt / 2),ft_new_intpair((game->settings->scale + 1) , proj_heihgt), game->map->textures[0]);
 		//draw_rectangle(game, ft_new_intpair( i * game->settings->scale, game->settings->win_size->y / 2 - proj_heihgt / 2),ft_new_intpair( game->settings->scale, proj_heihgt), 0 | c<<16 | c<<8 | c);
 		i++;
 		cur_angle += game->settings->delta_angle;
@@ -167,7 +157,8 @@ int		ft_main_loop(t_game *game)
 	movement(game);
 	//raycast(game);
 	raycast_im(game);
-	draw_map(game);
+	if (game->settings->settings & SETT_MAP_ON)
+		draw_map(game);
 	update_window(game);
 	//mlx_put_image_to_window(game->mlx->mlx_ptr, game->mlx->win, game->map->textures[0]->img_ptr, 0, 0);
 	//ft_printf(">>%p\n", game->mlx->mlx_ptr);

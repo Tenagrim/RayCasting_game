@@ -9,6 +9,9 @@
 # include <keys_lin.h>
 # define _USE_MATH_DEFINES
 
+# define FT_MIN(a, b) (((a) < (b) ? (a) : (b)))
+# define FT_MAX(a, b) (((a) < (b) ? (b) : (a)))
+
 # define WIN_NAME "Cub3D"
 
 # define X_EVENT_KEY_PRESS		2
@@ -17,12 +20,15 @@
 # define X_EVENT_MOUSE_RELEASE	5
 # define X_EVENT_MOUSE_MOVE		6
 # define X_EVENT_EXIT			17
-# define MOVE_FLAG_FORW 1
-# define MOVE_FLAG_BACK 2
-# define MOVE_FLAG_LEFT 4
-# define MOVE_FLAG_RIGHT 8
-# define MOVE_FLAG_ROT_L 16
-# define MOVE_FLAG_ROT_R 32
+# define MOVE_FLAG_FORW 1<<0
+# define MOVE_FLAG_BACK 1<<1
+# define MOVE_FLAG_LEFT 1<<2
+# define MOVE_FLAG_RIGHT 1<<3
+# define MOVE_FLAG_ROT_L 1<<4
+# define MOVE_FLAG_ROT_R 1<<5
+# define SETT_SHADOWS_ON 1<<0
+# define SETT_MAP_ON 1<<1
+# define SETT_COLL_ON 1<<2
 
 
 typedef struct			s_intpair
@@ -92,6 +98,9 @@ typedef struct			s_settings
 	int				sq_size;
 	t_intpair			*texture_size;
 	float				texture_scale;
+	int				floor_color;
+	int				ceil_color;
+	char				settings;
 }						t_settings;
 
 typedef struct			s_game

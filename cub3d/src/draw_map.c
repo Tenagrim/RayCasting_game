@@ -32,27 +32,25 @@ void	draw_map(t_game *game)
 	int		d;
 
 	i = 0;
-	d = 10;
-	tile_size = 10;
+	tile_size = 12;
+	d = tile_size / 2;
 	p = ft_new_intpair(0,0);
 	pos = map_pos(game, tile_size);
-	p->x = pos->x + d * cos(game->player->angle) - tile_size / 12;
-	p->y = pos->y + d * sin(game->player->angle) - tile_size / 12;
+	p->x = pos->x + d * cos(game->player->angle) + tile_size / 4;
+	p->y = pos->y + d * sin(game->player->angle) + tile_size / 4;
 	while (i < game->map->map_size->y)
 	{
 		j = 0;
 		while (j < game->map->map_size->x)
 		{
-			if ((game->map->map)[i][j] == '1')
-				color = 0xDDDDDD;
-			else
-				color = 0;
+			color =  ((game->map->map)[i][j] == '1') ? 0xDDDDDD : 0;
 			draw_rectangle(game, ft_new_intpair(j * tile_size,i * tile_size), ft_new_intpair(tile_size - 1, tile_size - 1), color);
 			j++;
 		}
 		i++;
 	}
-	draw_rectangle(game, p, ft_new_intpair(tile_size / 6,tile_size / 6), 0xFFFFFF);
+	//draw_rectangle(game, p, ft_new_intpair(tile_size / 6,tile_size / 6), 0xFFFFFF);
+	draw_line(game, ft_new_intpair(pos->x+tile_size / 4, pos->y + tile_size / 4), p, 0xFFFFFF);
 	draw_rectangle(game, map_pos(game, tile_size), ft_new_intpair(tile_size / 2,tile_size / 2), 0xFFFFFF);
-
+	free(pos);
 }
