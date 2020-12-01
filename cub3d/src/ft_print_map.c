@@ -7,7 +7,7 @@ void	ft_print_map(t_map *map)
 	i = 0;
 	while (i < map->map_size->y)
 	{
-		ft_printf("%d:  %s \n",i, map->map[i]);
+		ft_printf("%3d:  %s \n",i, map->map[i]);
 		i++;
 	}
 }

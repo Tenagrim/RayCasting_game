@@ -44,6 +44,7 @@ void	draw_map(t_game *game)
 		while (j < game->map->map_size->x)
 		{
 			color =  ((game->map->map)[i][j] == '1') ? 0xDDDDDD : 0;
+			color =  ((game->map->map)[i][j] == '2') ? 0xFF07DD : color;
 			draw_rectangle(game, ft_new_intpair(j * tile_size,i * tile_size), ft_new_intpair(tile_size - 1, tile_size - 1), color);
 			j++;
 		}

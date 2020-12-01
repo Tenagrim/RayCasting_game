@@ -11,13 +11,13 @@ static t_game	*init_game(char **av)
 	game->player = ft_new_player();
 	mlx = (t_mlx*)malloc(sizeof(t_mlx));
 	mlx->mlx_ptr = mlx_init();
-	mlx->img = (t_img*)malloc(sizeof(t_img));
-	mlx->img->img_ptr = mlx_new_image(mlx->mlx_ptr, game->settings->win_size->x, game->settings->win_size->y);
-	mlx->img->data = (int *)mlx_get_data_addr(mlx->img->img_ptr, &(mlx->img->bpp), &(mlx->img->size_l), &(mlx->img->endian));
 	game->mlx = mlx;
 	if (!(map = ft_get_map_from_file(game, av[1])))
 		return (NULL);
 	game->map = map;
+	mlx->img = (t_img*)malloc(sizeof(t_img));
+	mlx->img->img_ptr = mlx_new_image(mlx->mlx_ptr, game->settings->win_size->x, game->settings->win_size->y);
+	mlx->img->data = (int *)mlx_get_data_addr(mlx->img->img_ptr, &(mlx->img->bpp), &(mlx->img->size_l), &(mlx->img->endian));
 	mlx->win= mlx_new_window(mlx->mlx_ptr, game->settings->win_size->x, game->settings->win_size->y, WIN_NAME);
 	mlx_hook(mlx->win, 2, 1L<<0, &key_press, game);
 	mlx_hook(mlx->win, 3, 1L<<1, &key_release, game);

@@ -38,7 +38,9 @@
 # define PARSE_SPRITE_TEX_FOUND	1<<5
 # define PARSE_C_COLOR_FOUND	1<<6
 # define PARSE_F_COLOR_FOUND	1<<7
-# define MAP_CHARS "NWSE012"
+# define PARSE_PL_POS_FOUND	1<<8
+# define MAP_CHARS "NWSE012 "
+# define MAP_DIRS_CHARS "NWSE"
 
 
 typedef struct			s_intpair
@@ -67,10 +69,19 @@ typedef struct			s_img
 	int					shadow;
 }						t_img;
 
+typedef struct			s_sprite
+{
+	struct s_sprite		*next;
+	struct s_sprite		*sorted;
+	t_floatpair		*pos;
+	float			dist;
+}				t_sprite;
+
 typedef struct			s_map
 {
 	char				**map;
 	t_list				*walls;
+	t_sprite			*sprites;
 	t_img				**textures;
 	char				**texture_paths;
 	t_intpair			*map_size;
@@ -103,7 +114,7 @@ typedef struct			s_settings
 	float				scale;
 	float				proj_coeff;
 	float				delta_angle;
-	size_t					numrays;
+	int					numrays;
 	int				depth;
 	t_intpair			*win_size;
 	int				sq_size;
@@ -112,7 +123,9 @@ typedef struct			s_settings
 	int				floor_color;
 	int				ceil_color;
 	char				settings;
-	char				parse_finds;
+	int				parse_finds;
+	float				shadow_mult;
+	float				*z_buffer;
 }						t_settings;
 
 typedef struct			s_game
@@ -145,5 +158,10 @@ int	draw_line(t_game *game, t_intpair *start, t_intpair *stop, int color);
 void	draw_map(t_game *game);
 t_img	*load_texture(t_game *game, char *filename);
 int		draw_textured_rectangle(t_game *game, t_intpair *pos, t_intpair *size, t_img *texture);
+t_sprite	*ft_sprtnew(t_floatpair *pos);
+void	ft_sprtadd_front(t_sprite **list, t_sprite *add);
+void	ft_copy_intpair(t_intpair *dest, t_intpair *src);
+t_sprite	*ft_sprtadd_sorted(t_sprite **sorted, t_sprite *sprite);
+t_sprite	*ft_sort_sprites(t_game *game, t_sprite *sprites);
 
 #endif
