@@ -23,5 +23,6 @@ t_settings *ft_default_settings(void)
 	ft_printf("scale: %f\n", res->scale);
 	res->parse_finds = 0;
 	res->shadow_mult = 0.000027;
+	res->body = res->sq_size / 6.;
 	return (res);
 }

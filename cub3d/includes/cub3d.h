@@ -126,6 +126,7 @@ typedef struct			s_settings
 	int				parse_finds;
 	float				shadow_mult;
 	float				*z_buffer;
+	float				body;
 }						t_settings;
 
 typedef struct			s_game
@@ -177,4 +178,14 @@ void	movement(t_game *game);
 void	draw_sprites(t_game *game);
 int	validate_map(t_map *map);
 int	error_map_line(int i, char *line, char dir);
+int		get_player_pos(t_game *game);
+int		parse_map(t_game *game, t_list *file);
+int		load_textures(t_game *game);
+int		parse_c_color(t_game *game, t_list *file);
+int		parse_f_color(t_game *game, t_list *file);
+char		*find_line(t_list *file, char *key);
+int		parse_tex_paths(t_game *game, t_list *file);
+int		parse_res(t_game *game, t_list *file);
+int	ft_clear_split(char ***splitted);
+int	ft_count_splitted(char **splitted);
 #endif

@@ -1,6 +1,6 @@
 #include <cub3d.h>
 
-void	rotate(t_game *game, char dir)
+void		rotate(t_game *game, char dir)
 {
 	float d_pi;
 
@@ -15,31 +15,67 @@ void	rotate(t_game *game, char dir)
 		game->player->angle = d_pi;
 }
 
-void	movement(t_game *game)
+static void	coll_x(t_game *game, float dx)
 {
-	float	a;
+	float	pos;
+	float	body;
+
+	if (game->settings->settings & SETT_COLL_ON)
+	{
+		pos = game->player->pos->x;
+		body = (dx < 0) ? -1 * game->settings->body :
+			game->settings->body;
+		if (game->map->map[(int)(game->player->pos->y) /
+				game->settings->sq_size]
+				[(int)(pos + dx + body) /
+				game->settings->sq_size] == '1')
+			return ;
+	}
+	game->player->pos->x += dx;
+}
+
+static void	coll_y(t_game *game, float dy)
+{
+	float	pos;
+	float	body;
+
+	if (game->settings->settings & SETT_COLL_ON)
+	{
+		pos = game->player->pos->y;
+		body = (dy < 0) ? -1 * game->settings->body :
+			game->settings->body;
+		if (game->map->map[(int)(pos + dy + body) /
+				game->settings->sq_size]
+				[(int)(game->player->pos->x) /
+				game->settings->sq_size] == '1')
+			return ;
+	}
+	game->player->pos->y += dy;
+}
+
+static void	collisions(t_game *game, float dx, float dy)
+{
+	coll_x(game, dx);
+	coll_y(game, dy);
+}
+
+void		movement(t_game *game)
+{
+	float		a;
 
 	a = game->player->angle;
 	if (game->player->move_flags & MOVE_FLAG_FORW)
-	{
-		game->player->pos->x += game->player->move_speed * cos(a);
-		game->player->pos->y += game->player->move_speed * sin(a);
-	}
+		collisions(game, game->player->move_speed * cos(a),
+				game->player->move_speed * sin(a));
 	if (game->player->move_flags & MOVE_FLAG_BACK)
-	{
-		game->player->pos->x -= game->player->move_speed * cos(a);
-		game->player->pos->y -= game->player->move_speed * sin(a);
-	}
+		collisions(game, -1 * game->player->move_speed * cos(a),
+				-1 * game->player->move_speed * sin(a));
 	if (game->player->move_flags & MOVE_FLAG_LEFT)
-	{
-		game->player->pos->x += game->player->move_speed * sin(a);
-		game->player->pos->y -= game->player->move_speed * cos(a);
-	}
+		collisions(game, game->player->move_speed * sin(a),
+				-1 * game->player->move_speed * cos(a));
 	if (game->player->move_flags & MOVE_FLAG_RIGHT)
-	{
-		game->player->pos->x -= game->player->move_speed * sin(a);
-		game->player->pos->y += game->player->move_speed * cos(a);
-	}
+		collisions(game, -1 * game->player->move_speed * sin(a),
+				game->player->move_speed * cos(a));
 	if (game->player->move_flags & MOVE_FLAG_ROT_L)
 		rotate(game, 1);
 	if (game->player->move_flags & MOVE_FLAG_ROT_R)
