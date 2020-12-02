@@ -1,31 +1,5 @@
 #include <cub3d.h>
 
-/*
-static char		**gen_map(void)
-{
-	char	**res;
-
-	res = (char**)malloc(sizeof(char*) * 16);
-	res[0] = ft_strdup("11111111111111111111111111111");
-	res[1] = ft_strdup("10000000100000000000000000001");
-	res[2] = ft_strdup("10111110100000000000011100001");
-	res[3] = ft_strdup("10000000101000000000000100001");
-	res[4] = ft_strdup("10000000010000010101000100001");
-	res[5] = ft_strdup("10100111000010000000001100001");
-	res[6] = ft_strdup("10100111000010001010100100001");
-	res[7] = ft_strdup("10100111001000000000011100001");
-	res[8] = ft_strdup("10110000001110001010101100001");
-	res[9] = ft_strdup("10010011110100000000000100001");
-	res[10] = ft_strdup("10100000000000000000000000001");
-	res[11] = ft_strdup("10101011000111110000000000001");
-	res[12] = ft_strdup("10001011101110110000000000001");
-	res[13] = ft_strdup("10101000000000010000000000001");
-	res[14] = ft_strdup("10000000000000000000000000001");
-	res[15] = ft_strdup("11111111111111111111111111111");
-	return (res);
-}
-*/
-
 static void		get_walls(t_game *game)
 {
 	int		i;
@@ -55,7 +29,7 @@ static void		get_walls(t_game *game)
 	map->sprites = sprites;
 }
 
-static int		get_tex_ind(char *dir)
+static int		map_get_tex_ind(char *dir)
 {
 	if (!ft_strcmp(dir, "NO "))
 		return (0);
@@ -94,7 +68,7 @@ static int		get_tex_path(t_game *game, t_list *file, char *dir)
 	char	*line;
 
 	line = find_line(file, dir);
-	ind = get_tex_ind(dir);
+	ind = map_get_tex_ind(dir);
 	if (game->settings->parse_finds & 1 << (ind + 1) || !line)
 		return (0);
 	game->settings->parse_finds |= 1 << (ind + 1);
@@ -244,7 +218,8 @@ static int		parse_map(t_game *game, t_list *file)
 	p = map_firstline;
 	while (i < game->map->map_size->y)
 	{
-		res[i] = ft_strdup((char*)(p->content));
+		res[i] = ft_calloc(game->map->map_size->x, sizeof(char));
+		ft_strcpy(res[i], (char*)(p->content));
 		p = p->next;
 		i++;
 	}
@@ -263,8 +238,6 @@ static int		get_pl_pos(t_game *game, char c, int i, int j)
 			return (-1);
 		}
 		game->settings->parse_finds |= PARSE_PL_POS_FOUND;
-		ft_printf("{%d}\n", game->settings->parse_finds);
-		ft_printf(">>>-1<<< i:  %d  j:  %d\n", i, j);
 		if (c == 'N')
 			game->player->angle =  M_PI * 2 - M_PI / 2;
 		else if (c == 'E')
@@ -321,16 +294,10 @@ t_map			*ft_get_map_from_file(t_game *game, char *filename)
 	game->map = res;
 	if (!(parse_f_color(game, file) && parse_c_color(game, file)))
 		return (0);
-	if (parse_tex_paths(game, file) && parse_res(game, file) && parse_map(game, file) && valid_map(game))
+	if (parse_tex_paths(game, file) && parse_res(game, file) && parse_map(game, file) && valid_map(game) && validate_map(game->map))
 	{
-		ft_printf("textures: \n");
-		ft_printf("[%s]\n", res->texture_paths[0]);
-		ft_printf("[%s]\n", res->texture_paths[1]);
-		ft_printf("[%s]\n", res->texture_paths[2]);
-		ft_printf("[%s]\n", res->texture_paths[3]);
-		ft_printf("[%s]\n", res->texture_paths[4]);
-		ft_print_map(game->map);
 		get_walls(game);
+		ft_get_settings(game);
 		if (!load_textures(game))
 			return (NULL);
 		return (res);

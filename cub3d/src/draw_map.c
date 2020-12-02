@@ -1,8 +1,8 @@
 #include <cub3d.h>
 
-static int ft_map(int x, int in_min, int in_max, int out_min, int out_max)
+static float ft_map_zero(float x, float in_max, float out_max)
 {
-  return (x - in_min) * (out_max - out_min) / (in_max - in_min) + out_min;
+  return x * out_max  / in_max;
 }
 
 static t_intpair 	*map_pos(t_game *game, int tile_size)
@@ -14,8 +14,8 @@ static t_intpair 	*map_pos(t_game *game, int tile_size)
 	res = ft_new_intpair(0,0);
 	height = game->map->map_size->y * tile_size;
 	width = game->map->map_size->x * tile_size;
-	res->x = ft_map(game->player->pos->x, 0, game->map->map_size->x * game->settings->sq_size, 0, width);
-	res->y = ft_map(game->player->pos->y, 0, game->map->map_size->y * game->settings->sq_size, 0, height);
+	res->x = ft_map_zero(game->player->pos->x, game->map->map_size->x * game->settings->sq_size, width);
+	res->y = ft_map_zero(game->player->pos->y, game->map->map_size->y * game->settings->sq_size, height);
 	res->x -= tile_size / 4;
 	res->y -= tile_size / 4;
 	return (res);
@@ -32,7 +32,7 @@ void	draw_map(t_game *game)
 	int		d;
 
 	i = 0;
-	tile_size = 12;
+	tile_size = FT_MIN(game->settings->win_size->x, game->settings->win_size->y) / 50;
 	d = tile_size / 2;
 	p = ft_new_intpair(0,0);
 	pos = map_pos(game, tile_size);

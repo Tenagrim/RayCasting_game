@@ -163,5 +163,18 @@ void	ft_sprtadd_front(t_sprite **list, t_sprite *add);
 void	ft_copy_intpair(t_intpair *dest, t_intpair *src);
 t_sprite	*ft_sprtadd_sorted(t_sprite **sorted, t_sprite *sprite);
 t_sprite	*ft_sort_sprites(t_game *game, t_sprite *sprites);
+void		ft_get_settings(t_game *game);
 
+void	draw_floor(t_game *game);
+void	draw_ceil(t_game *game);
+void	raycast_im(t_game *game);
+float	get_dist(t_game *game, t_floatpair *depth, float cur_angle);
+int	get_tex_ind(t_game *game, t_floatpair *depth, int x, int y);
+void	get_tile(t_intpair *res, t_floatpair *pos, int sq_size);
+int	hit(t_game *game, int x, int y);
+void	rotate(t_game *game, char dir);
+void	movement(t_game *game);
+void	draw_sprites(t_game *game);
+int	validate_map(t_map *map);
+int	error_map_line(int i, char *line, char dir);
 #endif
