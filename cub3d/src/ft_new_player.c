@@ -6,7 +6,6 @@ t_player	*ft_new_player(void)
 
 	res = (t_player*)malloc(sizeof(t_player));
 	res->pos = ft_new_floatpair(75.0, 130.0);
-	res->move = ft_new_floatpair(0.0, 0.0);
 	res->walk_speed = 1.2;
 	res->run_speed= res->walk_speed * 2;
 	res->move_speed = 0.4;

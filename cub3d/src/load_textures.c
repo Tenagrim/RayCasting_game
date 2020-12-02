@@ -1,5 +1,11 @@
 #include <cub3d.h>
 
+static int	abort_l(t_game *game)
+{
+	clear_textures(game);
+	return (0);
+}
+
 int		load_textures(t_game *game)
 {
 	int	i;
@@ -9,7 +15,7 @@ int		load_textures(t_game *game)
 	{
 		img = load_texture(game, game->map->texture_paths[i]);
 		if (!img)
-			return (0);
+			return (abort_l(game));
 		game->map->textures[i] = img;
 		i++;
 	}

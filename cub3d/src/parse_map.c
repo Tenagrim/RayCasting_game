@@ -13,7 +13,8 @@ static int		valid_map_line(char *line)
 	return (1);
 }
 
-static int		parse_map_size(t_list *file, t_list **map_firstline, t_intpair *map_size)
+static int		parse_map_size(t_list *file, t_list **map_firstline,
+		t_intpair *map_size)
 {
 	t_list		*p;
 	int		tmp;
@@ -36,6 +37,23 @@ static int		parse_map_size(t_list *file, t_list **map_firstline, t_intpair *map_
 	return (1);
 }
 
+static	int	abort_l(char **arr, int size)
+{
+	int	i;
+
+	i = 0;
+	if (arr)
+	{
+		while (i < size)
+		{
+			if (arr[i])
+				free(arr[i]);
+			i++;
+		}
+	}
+	return (0);
+}
+
 int		parse_map(t_game *game, t_list *file)
 {
 	t_list	*map_firstline;
@@ -45,12 +63,17 @@ int		parse_map(t_game *game, t_list *file)
 
 	if (!parse_map_size(file, &map_firstline, game->map->map_size))
 		return (0);
-	res = (char**)malloc(sizeof(char*) * game->map->map_size->y);
+	if (!(res = (char**)malloc(sizeof(char*) * game->map->map_size->y)))
+		return (0);
 	i = 0;
 	p = map_firstline;
+	while (i++ < game->map->map_size->y)
+		res[i - 1] = NULL;
+	i = 0;
 	while (i < game->map->map_size->y)
 	{
-		res[i] = ft_calloc(game->map->map_size->x, sizeof(char));
+		if (!(res[i] = ft_calloc(game->map->map_size->x, sizeof(char))))
+			return (abort_l(res, game->map->map_size->y));
 		ft_strcpy(res[i], (char*)(p->content));
 		p = p->next;
 		i++;

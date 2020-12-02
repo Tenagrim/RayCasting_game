@@ -80,7 +80,6 @@ typedef struct			s_sprite
 typedef struct			s_map
 {
 	char				**map;
-	t_list				*walls;
 	t_sprite			*sprites;
 	t_img				**textures;
 	char				**texture_paths;
@@ -99,7 +98,6 @@ typedef struct			s_player
 	float				angle;
 	char				move_flags;
 	t_floatpair			*pos;
-	t_floatpair			*move;
 	float				move_speed;
 	float				run_speed;
 	float				walk_speed;
@@ -188,4 +186,12 @@ int		parse_tex_paths(t_game *game, t_list *file);
 int		parse_res(t_game *game, t_list *file);
 int	ft_clear_split(char ***splitted);
 int	ft_count_splitted(char **splitted);
+t_game	*init_game(char **av);
+t_map		*init_map(void);
+t_mlx	*init_mlx(void);
+void		*clear_map(t_map **map);
+void		clear_sprites(t_sprite **sprites);
+void		clear_textures(t_game *game);
+void		clear_img(t_game *game, t_img **img);
+
 #endif
