@@ -6,7 +6,7 @@
 /*   By: gshona <marvin@42.fr>                      +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2020/11/03 13:02:08 by gshona            #+#    #+#             */
-/*   Updated: 2020/11/03 13:59:18 by gshona           ###   ########.fr       */
+/*   Updated: 2020/12/03 19:07:14 by tenagrim         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -28,5 +28,7 @@ t_list	*ft_read_file(char *filename)
 		tmp = ft_lstnew((void*)line);
 		ft_lstadd_back(&file, tmp);
 	}
+	tmp = ft_lstnew((void*)line);
+	ft_lstadd_back(&file, tmp);
 	return (file);
 }

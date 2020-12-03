@@ -190,8 +190,13 @@ t_game	*init_game(char **av);
 t_map		*init_map(void);
 t_mlx	*init_mlx(void);
 void		*clear_map(t_map **map);
+void		clear_file(t_list *file);
 void		clear_sprites(t_sprite **sprites);
 void		clear_textures(t_game *game);
 void		clear_img(t_game *game, t_img **img);
+void		clear_player(t_game *game);
+void		clear_settings(t_game *game);
+void		clear_mlx(t_game *game);
+void		clear_game(t_game **game);
 
 #endif

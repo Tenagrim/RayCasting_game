@@ -1,14 +1,5 @@
 #include <cub3d.h>
 
-void		clear_img(t_game *game, t_img **img)
-{
-	if (*img)
-	{
-		mlx_destroy_image(game->mlx->mlx_ptr, (*img)->img_ptr);
-		*img = NULL;
-	}
-}
-
 static void	clear_arr(t_map *map)
 {
 	int	i;
@@ -22,6 +13,8 @@ static void	clear_arr(t_map *map)
 			free(map->map[i]);
 		i++;
 	}
+	free(map->map);
+	map->map = NULL;
 }
 
 void		*clear_map(t_map **map)
@@ -42,6 +35,7 @@ void		*clear_map(t_map **map)
 	}
 	if ((*map)->map_size)
 		free((*map)->map_size);
+	free(*map);
 	*map = NULL;
 	return (NULL);
 }

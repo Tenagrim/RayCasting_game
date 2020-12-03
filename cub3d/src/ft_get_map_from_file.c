@@ -1,9 +1,16 @@
 #include <cub3d.h>
 
-static t_map		*abort_l(t_game *game)
+static t_map		*abort_l(t_game *game, t_list *file)
 {
 	clear_textures(game);
 	clear_map(&(game->map));
+	clear_file(file);
+	return (NULL);
+}
+
+static t_map		*ft_cl_file(t_list *file)
+{
+	clear_file(file);
 	return (NULL);
 }
 
@@ -37,15 +44,13 @@ static void		get_sprites(t_game *game)
 
 t_map			*ft_get_map_from_file(t_game *game, char *filename)
 {
-	t_map	*res;
 	t_list	*file;
 
 	file = ft_read_file(filename);
 	if (!file)
 		return (0);
-	if (!(res = init_map()))
-		return (NULL);
-	game->map = res;
+	if (!(game->map = init_map()))
+		return (ft_cl_file(file));
 	if (parse_f_color(game, file) && parse_c_color(game, file) &&
 			parse_tex_paths(game, file) && parse_res(game, file) &&
 			parse_map(game, file) && get_player_pos(game) &&
@@ -53,8 +58,9 @@ t_map			*ft_get_map_from_file(t_game *game, char *filename)
 	{
 		get_sprites(game);
 		ft_get_settings(game);
-		return (res);
+		clear_file(file);
+		return (game->map);
 	}
 	else
-		return (abort_l(game));
+		return (abort_l(game, file));
 }

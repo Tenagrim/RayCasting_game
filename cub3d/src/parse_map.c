@@ -72,7 +72,8 @@ int		parse_map(t_game *game, t_list *file)
 	i = 0;
 	while (i < game->map->map_size->y)
 	{
-		if (!(res[i] = ft_calloc(game->map->map_size->x, sizeof(char))))
+		if (!(res[i] = ft_calloc(game->map->map_size->x + 1,
+						sizeof(char))))
 			return (abort_l(res, game->map->map_size->y));
 		ft_strcpy(res[i], (char*)(p->content));
 		p = p->next;

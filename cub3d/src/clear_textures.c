@@ -13,4 +13,6 @@ void		clear_textures(t_game *game)
 			clear_img(game, &(game->map->textures[i]));
 		i++;
 	}
+	free(game->map->textures);
+	game->map->textures = NULL;
 }

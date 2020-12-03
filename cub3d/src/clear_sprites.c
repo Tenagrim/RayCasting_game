@@ -10,8 +10,8 @@ void		clear_sprites(t_sprite **sprites)
 	p = *sprites;
 	while (p)
 	{
-		p = p->next;
 		p2 = p;
+		p = p->next;
 		if (p2->pos)
 			free(p2->pos);
 		free(p2);
