@@ -20,7 +20,6 @@ t_settings *ft_default_settings(void)
 	res->floor_color = 0xA1002C;
 	res->ceil_color = 0x00002C;
 	res->settings = 0;
-	ft_printf("scale: %f\n", res->scale);
 	res->parse_finds = 0;
 	res->shadow_mult = 0.000027;
 	res->body = res->sq_size / 6.;

@@ -198,5 +198,7 @@ void		clear_player(t_game *game);
 void		clear_settings(t_game *game);
 void		clear_mlx(t_game *game);
 void		clear_game(t_game **game);
+int		screenshot(t_game *game);
+int		save_bmp(t_game *game);
 
 #endif

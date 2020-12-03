@@ -20,7 +20,6 @@ static void	draw_sprite(t_game *game, t_sprite *sprite)
 	d.y = sprite->pos->y - game->player->pos->y;
 	thetha = atan2(d.y, d.x);
 	gamma = thetha - game->player->angle;
-
 	if ((d.x > 0 && (M_PI <= game->player->angle && game->player->angle <= 2 * M_PI)) || (d.x < 0 && d.y < 0))
 		gamma += 2 * M_PI;
 	delta_rays = (int)(gamma / (float)game->settings->delta_angle);
@@ -32,7 +31,7 @@ static void	draw_sprite(t_game *game, t_sprite *sprite)
 	numrays = proj_heihgt / game->settings->scale + 1;
 	start_ray = curr_ray -  numrays / 2;
 	stop_ray = curr_ray + numrays / 2;
-	pos.x = curr_ray * game->settings->scale - proj_heihgt / 2;
+	pos.x = curr_ray * game->settings->scale - proj_heihgt / 2 - 1;
 	pos.y = game->settings->win_size->y / 2 - proj_heihgt / 2;
 	stop_x = pos.x + proj_heihgt;
 	start_x = pos.x;

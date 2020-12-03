@@ -4,7 +4,6 @@ static int		get_pl_pos(t_game *game, char c, int i, int j)
 {
 	if (c && ft_strchr(MAP_DIRS_CHARS, c))
 	{
-		ft_printf("char = [%d]\n", c);
 		if (game->settings->parse_finds & PARSE_PL_POS_FOUND)
 		{
 			ft_printf("exit -1\n");
