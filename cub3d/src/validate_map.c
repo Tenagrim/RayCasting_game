@@ -27,7 +27,8 @@ static int	horizontals(t_map *map)
 		{
 			cur = map->map[i][j];
 			if ((is_hole(prev) && is_floor(cur)) ||
-					((is_hole(cur) && is_floor(prev))))
+					((is_hole(cur) && is_floor(prev))) ||
+					(is_floor(prev) && j == 1))
 				return (error_map_line(i, map->map[i], 'h'));
 			prev = cur;
 			j++;
@@ -53,7 +54,10 @@ static int	verticals(t_map *map)
 		{
 			cur = map->map[j][i];
 			if ((is_hole(prev) && is_floor(cur)) ||
-					((is_hole(cur) && is_floor(prev))))
+					((is_hole(cur) && is_floor(prev))) ||
+					(is_floor(cur) && j ==
+					 map->map_size->y - 1) ||
+					(is_floor(prev) && j == 1))
 				return (error_map_line(j, map->map[j], 'v'));
 			prev = cur;
 			j++;
@@ -66,5 +70,4 @@ static int	verticals(t_map *map)
 int	validate_map(t_map *map)
 {
 	return (horizontals(map) && verticals(map));
-
 }

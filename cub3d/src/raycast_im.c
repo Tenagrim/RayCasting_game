@@ -56,7 +56,6 @@ static void	horizontals(t_game *game, t_raycast_args *a)
 	}
 }
 
-
 static void	projection(t_game *game, t_raycast_args *a)
 {
 	a->tex_ind = get_tex_ind(game, &(a->depth), a->x, a->y);

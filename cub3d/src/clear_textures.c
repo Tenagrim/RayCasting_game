@@ -4,7 +4,7 @@ void		clear_textures(t_game *game)
 {
 	int	i;
 
-	if (!(game->map->textures))
+	if (!(game->map && game->map->textures))
 		return ;
 	i = 0;
 	while (i < 5)

@@ -2,8 +2,6 @@
 
 int exit_game(t_game *game, int code)
 {
-	if (!game)
-		code = -1;
 	if (code < 0)
 		ft_printf("Error\n");
 	ft_printf("Exiting with code: %d\n", code);
