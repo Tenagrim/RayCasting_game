@@ -1,73 +1,94 @@
-#include <cub3d.h>
+#include <raycast_args.h>
+
+static void	init_args(t_game *game, t_raycast_args *a)
+{
+	a->start_pos.x = game->player->pos->x;
+	a->start_pos.y = game->player->pos->y;
+	get_tile(&(a->cur_tile), game->player->pos, game->settings->sq_size);
+	a->cur_angle = game->player->angle - game->settings->h_fov;
+	a->i = 0;
+	a->depth.x = 0;
+	a->depth.y = 0;
+}
+
+static void	verticals(t_game *game, t_raycast_args *a)
+{
+	int	max;
+
+	max = FT_MAX(game->map->map_size->y, game->map->map_size->x);
+	a->x = (a->cos_a >= 0) ? a->cur_tile.x * game->settings->sq_size +
+		game->settings->sq_size : a->cur_tile.x *
+		game->settings->sq_size;
+	a->dx = (a->cos_a >= 0) ? 1 : -1;
+	a->j = 0;
+	while (a->j < max)
+	{
+		a->depth.x = (a->x - a->start_pos.x) / a->cos_a;
+		a->yv = a->start_pos.y + a->depth.x * a->sin_a;
+		if (hit(game, (a->x + a->dx) / game->settings->sq_size, a->yv /
+					game->settings->sq_size) == 1)
+			break ;
+		a->x += a->dx * game->settings->sq_size;
+		a->j++;
+	}
+
+}
+
+static void	horizontals(t_game *game, t_raycast_args *a)
+{
+	int	max;
+
+	max = FT_MAX(game->map->map_size->y, game->map->map_size->x);
+	a->y = (a->sin_a >= 0) ? a->cur_tile.y *
+		game->settings->sq_size + game->settings->sq_size :
+		a->cur_tile.y * game->settings->sq_size;
+	a->dy = (a->sin_a >= 0) ? 1 : -1;
+	a->j = 0;
+	while (a->j < max)
+	{
+		a->depth.y = (a->y - a->start_pos.y) / a->sin_a;
+		a->xh = a->start_pos.x + a->depth.y * a->cos_a;
+		if (hit(game, a->xh / game->settings->sq_size, (a->y + a->dy) /
+					game->settings->sq_size)== 1)
+			break ;
+		a->y += a->dy * game->settings->sq_size;
+		a->j++;
+	}
+}
+
+
+static void	projection(t_game *game, t_raycast_args *a)
+{
+	a->tex_ind = get_tex_ind(game, &(a->depth), a->x, a->y);
+	a->d = get_dist(game, &(a->depth), a->cur_angle);
+	game->settings->z_buffer[a->i] = a->d;
+	a->proj_heihgt = game->settings->proj_coeff / a->d * 2.5;
+	game->map->textures[a->tex_ind]->offset = (a->depth.x < a->depth.y) ?
+		a->yv : a->xh;
+	game->map->textures[a->tex_ind]->offset %= game->settings->sq_size;
+	draw_textured_rectangle(game, ft_new_intpair(a->i *
+				game->settings->scale ,
+				game->settings->win_size->y / 2 -
+				a->proj_heihgt / 2),
+			ft_new_intpair(game->settings->scale + 1,
+				a->proj_heihgt),
+			game->map->textures[a->tex_ind]);
+	a->i++;
+	a->cur_angle += game->settings->delta_angle;
+}
 
 void	raycast_im(t_game *game)
 {
-	t_intpair	cur_tile;
-	float		cur_angle;
-	t_floatpair	start_pos;
-	t_floatpair	depth;
-	float		sin_a;
-	float		cos_a;
-	int		i;
-	int		j;
-	float		d;
-	int		x;
-	int		y;
-	int		dx;
-	int		dy;
-	int		yv;
-	int		xh;
-	int		proj_heihgt;
-	int		tex_ind;
+	t_raycast_args	a;
 
-	start_pos.x = game->player->pos->x;
-	start_pos.y = game->player->pos->y;
-	get_tile(&cur_tile, game->player->pos, game->settings->sq_size);
-	cur_angle = game->player->angle - game->settings->h_fov;
-	i = 0;
-	depth.x = 0;
-	depth.y = 0;
-	while (i < game->settings->numrays )
+	init_args(game, &a);
+	while (a.i < game->settings->numrays )
 	{
-		sin_a = sin(cur_angle);
-		cos_a = cos(cur_angle);
-		// verticals
-		x = (cos_a >= 0) ? cur_tile.x * game->settings->sq_size + game->settings->sq_size : cur_tile.x * game->settings->sq_size;
-		dx = (cos_a >= 0) ? 1 : -1;
-		j = 0;
-		while (j < game->map->map_size->x)
-		{
-			depth.x = (x - start_pos.x) / cos_a;
-			yv = start_pos.y + depth.x * sin_a;
-			if (hit(game, (x + dx) / game->settings->sq_size, yv / game->settings->sq_size) == 1)
-				break ;
-			x += dx * game->settings->sq_size;
-			j++;
-		}
-		//horizontals
-		y = (sin_a >= 0) ? cur_tile.y * game->settings->sq_size + game->settings->sq_size : cur_tile.y * game->settings->sq_size;
-		dy = (sin_a >= 0) ? 1 : -1;
-		j = 0;
-		while (j < FT_MAX(game->map->map_size->y, game->map->map_size->x))
-		{
-			depth.y = (y - start_pos.y) / sin_a;
-			xh = start_pos.x + depth.y * cos_a;
-			if (hit(game, xh / game->settings->sq_size, (y + dy) / game->settings->sq_size)== 1)
-				break ;
-			y += dy * game->settings->sq_size;
-			j ++;
-		}
-		// projection
-		tex_ind = get_tex_ind(game, &depth, x, y);
-		d = get_dist(game, &depth, cur_angle);
-		game->settings->z_buffer[i] = d;
-		proj_heihgt = game->settings->proj_coeff / d * 2.5;
-		game->map->textures[tex_ind]->offset = (depth.x < depth.y) ? yv : xh;
-		game->map->textures[tex_ind]->offset %= game->settings->sq_size;
-		draw_textured_rectangle(game, ft_new_intpair( i * game->settings->scale , game->settings->win_size->y / 2 - proj_heihgt / 2),ft_new_intpair(game->settings->scale + 1, proj_heihgt), game->map->textures[tex_ind]);
-		i++;
-		cur_angle += game->settings->delta_angle;
+		a.sin_a = sin(a.cur_angle);
+		a.cos_a = cos(a.cur_angle);
+		verticals(game, &a);
+		horizontals(game, &a);
+		projection(game, &a);
 	}
-
 }
 
