@@ -1,3 +1,15 @@
+/* ************************************************************************** */
+/*                                                                            */
+/*                                                        :::      ::::::::   */
+/*   parse_tex_paths.c                                  :+:      :+:    :+:   */
+/*                                                    +:+ +:+         +:+     */
+/*   By: gshona <marvin@42.fr>                      +#+  +:+       +#+        */
+/*                                                +#+#+#+#+#+   +#+           */
+/*   Created: 2020/12/05 19:12:58 by gshona            #+#    #+#             */
+/*   Updated: 2020/12/05 19:40:27 by gshona           ###   ########.fr       */
+/*                                                                            */
+/* ************************************************************************** */
+
 #include <cub3d.h>
 
 static int		map_get_tex_ind(char *dir)
@@ -15,10 +27,9 @@ static int		map_get_tex_ind(char *dir)
 	return (-1);
 }
 
-
 static int		get_tex_path(t_game *game, t_list *file, char *dir)
 {
-	int	ind;
+	int		ind;
 	char	*line;
 
 	line = find_line(file, dir);
@@ -30,7 +41,7 @@ static int		get_tex_path(t_game *game, t_list *file, char *dir)
 	return (1);
 }
 
-int		parse_tex_paths(t_game *game, t_list *file)
+int				parse_tex_paths(t_game *game, t_list *file)
 {
 	if (get_tex_path(game, file, "NO ") &&
 			get_tex_path(game, file, "WE ") &&

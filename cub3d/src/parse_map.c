@@ -1,3 +1,15 @@
+/* ************************************************************************** */
+/*                                                                            */
+/*                                                        :::      ::::::::   */
+/*   parse_map.c                                        :+:      :+:    :+:   */
+/*                                                    +:+ +:+         +:+     */
+/*   By: gshona <marvin@42.fr>                      +#+  +:+       +#+        */
+/*                                                +#+#+#+#+#+   +#+           */
+/*   Created: 2020/12/05 19:12:06 by gshona            #+#    #+#             */
+/*   Updated: 2020/12/05 19:26:56 by gshona           ###   ########.fr       */
+/*                                                                            */
+/* ************************************************************************** */
+
 #include <cub3d.h>
 
 static int		valid_map_line(char *line)
@@ -17,7 +29,7 @@ static int		parse_map_size(t_list *file, t_list **map_firstline,
 		t_intpair *map_size)
 {
 	t_list		*p;
-	int		tmp;
+	int			tmp;
 
 	p = file;
 	while (p && !valid_map_line((char*)(p->content)))
@@ -37,7 +49,7 @@ static int		parse_map_size(t_list *file, t_list **map_firstline,
 	return (1);
 }
 
-static	int	abort_l(char **arr, int size)
+static int		abort_l(char **arr, int size)
 {
 	int	i;
 
@@ -54,12 +66,12 @@ static	int	abort_l(char **arr, int size)
 	return (0);
 }
 
-int		parse_map(t_game *game, t_list *file)
+int				parse_map(t_game *game, t_list *file)
 {
 	t_list	*map_firstline;
 	t_list	*p;
 	char	**res;
-	int	i;
+	int		i;
 
 	if (!parse_map_size(file, &map_firstline, game->map->map_size))
 		return (0);

@@ -1,3 +1,15 @@
+/* ************************************************************************** */
+/*                                                                            */
+/*                                                        :::      ::::::::   */
+/*   validate_map.c                                     :+:      :+:    :+:   */
+/*                                                    +:+ +:+         +:+     */
+/*   By: gshona <marvin@42.fr>                      +#+  +:+       +#+        */
+/*                                                +#+#+#+#+#+   +#+           */
+/*   Created: 2020/12/05 19:14:05 by gshona            #+#    #+#             */
+/*   Updated: 2020/12/05 19:35:44 by gshona           ###   ########.fr       */
+/*                                                                            */
+/* ************************************************************************** */
+
 #include <cub3d.h>
 
 static int	is_hole(char c)
@@ -7,14 +19,14 @@ static int	is_hole(char c)
 
 static int	is_floor(char c)
 {
-	return (c == '0' || c == '2'||
+	return (c == '0' || c == '2' ||
 			c == 'N' || c == 'W' || c == 'S' || c == 'E');
 }
 
 static int	horizontals(t_map *map)
 {
-	int	i;
-	int	j;
+	int		i;
+	int		j;
 	char	prev;
 	char	cur;
 
@@ -40,8 +52,8 @@ static int	horizontals(t_map *map)
 
 static int	verticals(t_map *map)
 {
-	int	i;
-	int	j;
+	int		i;
+	int		j;
 	char	prev;
 	char	cur;
 
@@ -56,7 +68,7 @@ static int	verticals(t_map *map)
 			if ((is_hole(prev) && is_floor(cur)) ||
 					((is_hole(cur) && is_floor(prev))) ||
 					(is_floor(cur) && j ==
-					 map->map_size->y - 1) ||
+					map->map_size->y - 1) ||
 					(is_floor(prev) && j == 1))
 				return (error_map_line(j, map->map[j], 'v'));
 			prev = cur;
@@ -67,7 +79,7 @@ static int	verticals(t_map *map)
 	return (1);
 }
 
-int	validate_map(t_map *map)
+int			validate_map(t_map *map)
 {
 	return (horizontals(map) && verticals(map));
 }

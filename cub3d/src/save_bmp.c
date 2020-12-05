@@ -1,3 +1,15 @@
+/* ************************************************************************** */
+/*                                                                            */
+/*                                                        :::      ::::::::   */
+/*   save_bmp.c                                         :+:      :+:    :+:   */
+/*                                                    +:+ +:+         +:+     */
+/*   By: gshona <marvin@42.fr>                      +#+  +:+       +#+        */
+/*                                                +#+#+#+#+#+   +#+           */
+/*   Created: 2020/12/05 19:13:31 by gshona            #+#    #+#             */
+/*   Updated: 2020/12/05 19:18:52 by gshona           ###   ########.fr       */
+/*                                                                            */
+/* ************************************************************************** */
+
 #include <cub3d.h>
 
 static void	write_int(unsigned char *str, int value)
@@ -10,9 +22,9 @@ static void	write_int(unsigned char *str, int value)
 
 static int	write_header(t_game *game, int fd, int size)
 {
-	int				res;
+	int						res;
 	unsigned char			*header;
-	
+
 	if (!(header = ft_calloc(54, sizeof(unsigned char))))
 		return (0);
 	header[0] = (unsigned char)('B');
@@ -62,7 +74,7 @@ static int	write_data(t_game *game, int fd, int pad)
 	return (1);
 }
 
-int		save_bmp(t_game *game)
+int			save_bmp(t_game *game)
 {
 	int			size;
 	int			fd;

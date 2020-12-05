@@ -1,6 +1,18 @@
+/* ************************************************************************** */
+/*                                                                            */
+/*                                                        :::      ::::::::   */
+/*   draw_sprites.c                                     :+:      :+:    :+:   */
+/*                                                    +:+ +:+         +:+     */
+/*   By: gshona <marvin@42.fr>                      +#+  +:+       +#+        */
+/*                                                +#+#+#+#+#+   +#+           */
+/*   Created: 2020/12/05 19:07:16 by gshona            #+#    #+#             */
+/*   Updated: 2020/12/05 19:44:12 by gshona           ###   ########.fr       */
+/*                                                                            */
+/* ************************************************************************** */
+
 #include <draw_sprite_args.h>
 
-static int	calc_args(t_game *game, t_sprite *sprite, t_draw_sprite_args *a)
+static int		calc_args(t_game *game, t_sprite *sprite, t_draw_sprite_args *a)
 {
 	a->thetha = atan2(a->d.y, a->d.x);
 	a->gamma = a->thetha - game->player->angle;
@@ -10,12 +22,12 @@ static int	calc_args(t_game *game, t_sprite *sprite, t_draw_sprite_args *a)
 		a->gamma += 2 * M_PI;
 	a->delta_rays = (int)(a->gamma / (float)game->settings->delta_angle);
 	a->curr_ray = game->settings->numrays / 2 - 1 + a->delta_rays;
-	a->dist = sprite->dist ;
+	a->dist = sprite->dist;
 	if (a->dist < game->settings->sq_size / 4.)
 		return (0);
 	a->proj_heihgt = game->settings->proj_coeff / a->dist * 2.5;
 	a->numrays = a->proj_heihgt / game->settings->scale + 1;
-	a->start_ray = a->curr_ray -  a->numrays / 2;
+	a->start_ray = a->curr_ray - a->numrays / 2;
 	a->stop_ray = a->curr_ray + a->numrays / 2;
 	a->pos.x = a->curr_ray * game->settings->scale - a->proj_heihgt / 2 - 1;
 	a->pos.y = game->settings->win_size->y / 2 - a->proj_heihgt / 2;
@@ -23,12 +35,12 @@ static int	calc_args(t_game *game, t_sprite *sprite, t_draw_sprite_args *a)
 	a->start_x = a->pos.x;
 	if ((a->start_ray < 0 && a->stop_ray < 0) ||
 			(a->start_ray >= game->settings->numrays &&
-			 a->stop_ray >= game->settings->numrays))
+			a->stop_ray >= game->settings->numrays))
 		return (0);
 	return (1);
 }
 
-static void	draw_sprite(t_game *game, t_sprite *sprite)
+static void		draw_sprite(t_game *game, t_sprite *sprite)
 {
 	t_draw_sprite_args	a;
 
@@ -41,7 +53,7 @@ static void	draw_sprite(t_game *game, t_sprite *sprite)
 	{
 		game->map->textures[4]->offset = (a.pos.x - a.start_x) *
 			game->settings->texture_size->x / a.proj_heihgt;
-		if (a.pos.x >= 0  && sprite->dist <
+		if (a.pos.x >= 0 && sprite->dist <
 				game->settings->z_buffer[(int)(a.pos.x /
 					game->settings->scale)] && a.pos.x >= 0)
 			draw_textured_rectangle(game,
@@ -53,7 +65,7 @@ static void	draw_sprite(t_game *game, t_sprite *sprite)
 	}
 }
 
-void	draw_sprites(t_game *game)
+void			draw_sprites(t_game *game)
 {
 	t_sprite	*sorted;
 

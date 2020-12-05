@@ -1,3 +1,15 @@
+/* ************************************************************************** */
+/*                                                                            */
+/*                                                        :::      ::::::::   */
+/*   load_textures.c                                    :+:      :+:    :+:   */
+/*                                                    +:+ +:+         +:+     */
+/*   By: gshona <marvin@42.fr>                      +#+  +:+       +#+        */
+/*                                                +#+#+#+#+#+   +#+           */
+/*   Created: 2020/12/05 19:11:57 by gshona            #+#    #+#             */
+/*   Updated: 2020/12/05 19:44:41 by gshona           ###   ########.fr       */
+/*                                                                            */
+/* ************************************************************************** */
+
 #include <cub3d.h>
 
 static int	abort_l(t_game *game)
@@ -6,10 +18,11 @@ static int	abort_l(t_game *game)
 	return (0);
 }
 
-int		load_textures(t_game *game)
+int			load_textures(t_game *game)
 {
-	int	i;
+	int		i;
 	t_img	*img;
+
 	i = 0;
 	while (i < 5)
 	{

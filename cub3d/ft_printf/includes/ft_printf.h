@@ -6,7 +6,7 @@
 /*   By: gshona <marvin@42.fr>                      +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2020/11/01 12:24:35 by gshona            #+#    #+#             */
-/*   Updated: 2020/11/11 18:13:23 by gshona           ###   ########.fr       */
+/*   Updated: 2020/12/05 21:30:02 by gshona           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -15,7 +15,7 @@
 # include <libft.h>
 # include <stdarg.h>
 
-#include <stdio.h>
+# include <stdio.h>
 # define FLAGS		"+-0# "
 # define SIZES		"lhL"
 # define CONVERSIONS	"cCsSpdiouxXf%"

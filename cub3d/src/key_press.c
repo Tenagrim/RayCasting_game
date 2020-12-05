@@ -1,11 +1,24 @@
+/* ************************************************************************** */
+/*                                                                            */
+/*                                                        :::      ::::::::   */
+/*   key_press.c                                        :+:      :+:    :+:   */
+/*                                                    +:+ +:+         +:+     */
+/*   By: gshona <marvin@42.fr>                      +#+  +:+       +#+        */
+/*                                                +#+#+#+#+#+   +#+           */
+/*   Created: 2020/12/05 19:11:12 by gshona            #+#    #+#             */
+/*   Updated: 2020/12/05 19:18:29 by gshona           ###   ########.fr       */
+/*                                                                            */
+/* ************************************************************************** */
+
 #include <cub3d.h>
 
 /*
 ** ft_printf("key pressed  code: %d\n", keycode);
 */
+
 int	key_press(int keycode, t_game *game)
 {
-	if(!keycode || !game)
+	if (keycode < 0 || !game)
 		return (0);
 	if (keycode == KEYS_W)
 		game->player->move_flags |= MOVE_FLAG_FORW;

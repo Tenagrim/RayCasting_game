@@ -7,27 +7,26 @@ MLX_LIN = libmlx.a
 SRC_DIR = src/
 OBJ_DIR = src/
 SRC_FILES = $(SRC_DIR)*.c gnl/*.c
-FLAGS = -Wall -Wextra  -Iincludes/ -O0 -g #FIXME
-INC=/usr/include #FIXME
-INCLIB=$(INC)/../lib #FIXME
+INC=/usr/include
+INCLIB=$(INC)/../lib
 SRC = $(addprefix $(SRC_DIR), $(SRC_FILES))
 OBJ_FILES = $(addprefix $(OBJ_DIR), $(SRC_FILES:.c=.o))
 LIBS_MAC = -Lmlx -lmlx -framework OpenGL -framework AppKit -lm
-#CC= gcc $(FLAGS)
-CC= gcc $(FLAGS) -I$(INC) #FIXME
+FLAGS = -Wall -Wextra  -Iincludes/ -O2
+CC= gcc $(FLAGS)           # mac   CC
+#CC= gcc $(FLAGS) -I$(INC) # linux CC
 
 all :  $(NAME)
 
 $(PRINF) :
 	$(MAKE) -C ft_printf
 
-$(MLX):
+$(MLX_MAC):
 				@$(MAKE) -C mlx
-				@mv mlx/$(MLX) .
+				@mv mlx/$(MLX_MAC) .
 
-#$(CC) -o $(NAME) $(SRC_FILES) $(LIBFT) $(PRINTF) $(LIBS)
-$(NAME) : $(MLX) $(LIBFT) $(PRINTF) $(SRC_FILES) $(HEADER)
-	$(CC) -o $(NAME) $(SRC_FILES) $(LIBFT) $(MLX_LIN) $(PRINTF) -Lminilibx/ -lmlx -L /usr/lib -lXext -lX11 -lm -lbsd
+$(NAME) : $(MLX_MAC) $(LIBFT) $(PRINTF) $(SRC_FILES) $(HEADER)
+	$(CC) -o $(NAME) $(SRC_FILES) $(LIBFT) $(PRINTF) $(LIBS_MAC)
 clean :
 	make clean -C ft_printf
 	rm -f src/*.o
@@ -39,5 +38,7 @@ fclean : clean
 re : fclean all
 
 
+#$(CC) -o $(NAME) $(SRC_FILES) $(LIBFT) $(PRINTF) $(LIBS)
 
+#$(CC) -o $(NAME) $(SRC_FILES) $(LIBFT) $(MLX_LIN) $(PRINTF) -Lminilibx/ -lmlx -L /usr/lib -lXext -lX11 -lm -lbsd
 

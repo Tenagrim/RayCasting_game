@@ -1,3 +1,15 @@
+/* ************************************************************************** */
+/*                                                                            */
+/*                                                        :::      ::::::::   */
+/*   draw_line.c                                        :+:      :+:    :+:   */
+/*                                                    +:+ +:+         +:+     */
+/*   By: gshona <marvin@42.fr>                      +#+  +:+       +#+        */
+/*                                                +#+#+#+#+#+   +#+           */
+/*   Created: 2020/12/05 19:05:45 by gshona            #+#    #+#             */
+/*   Updated: 2020/12/05 20:23:13 by gshona           ###   ########.fr       */
+/*                                                                            */
+/* ************************************************************************** */
+
 #include <cub3d.h>
 
 static int	ft_free_local(t_intpair *a, t_intpair *b)
@@ -26,33 +38,39 @@ static void	crop(t_game *game, t_intpair *start, t_intpair *stop)
 	stop->y = (stop->y >= heigth) ? heigth - 1 : stop->y;
 }
 
-int		draw_line(t_game *game, t_intpair *start, t_intpair *stop, int color)
+static void	init_l(t_intpair *d, t_intpair *s, t_intpair *start,
+		t_intpair *stop)
+{
+	d->x = ft_abs(stop->x - start->x);
+	d->y = -ft_abs(stop->y - start->y);
+	s->x = (start->x < stop->x) ? 1 : -1;
+	s->y = (start->y < stop->y) ? 1 : -1;
+}
+
+int			draw_line(t_game *game, t_intpair *start,
+		t_intpair *stop, int color)
 {
 	t_intpair	d;
 	t_intpair	s;
-	int		err;
-	int		e2;
+	t_intpair	err;
 
 	crop(game, start, stop);
-	d.x = ft_abs(stop->x - start->x);
-	d.y = -ft_abs(stop->y - start->y);
-	s.x = (start->x < stop->x) ? 1 : -1;
-	s.y = (start->y < stop->y) ? 1 : -1;
-	err = d.x + d.y;
+	init_l(&d, &s, start, stop);
+	err.x = d.x + d.y;
 	while (1)
 	{
 		draw_pixel(game, start->x, start->y, color);
 		if (start->x == stop->x && start->y == stop->y)
 			break ;
-		e2 = 2 * err;
-		if (e2 >= d.y)
+		err.y = 2 * err.x;
+		if (err.y >= d.y)
 		{
-			err += d.y;
+			err.x += d.y;
 			start->x = start->x + s.x;
 		}
-		if (e2 <= d.x)
+		if (err.y <= d.x)
 		{
-			err += d.x;
+			err.x += d.x;
 			start->y = start->y + s.y;
 		}
 	}

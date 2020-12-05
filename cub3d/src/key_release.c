@@ -1,12 +1,24 @@
+/* ************************************************************************** */
+/*                                                                            */
+/*                                                        :::      ::::::::   */
+/*   key_release.c                                      :+:      :+:    :+:   */
+/*                                                    +:+ +:+         +:+     */
+/*   By: gshona <marvin@42.fr>                      +#+  +:+       +#+        */
+/*                                                +#+#+#+#+#+   +#+           */
+/*   Created: 2020/12/05 19:11:33 by gshona            #+#    #+#             */
+/*   Updated: 2020/12/05 19:19:39 by gshona           ###   ########.fr       */
+/*                                                                            */
+/* ************************************************************************** */
+
 #include <cub3d.h>
 
 /*
 ** ft_printf("key released code: %d\n", keycode);
 */
 
-int key_release(int keycode, t_game *game)
+int	key_release(int keycode, t_game *game)
 {
-	if (!game)
+	if (keycode < 0 || !game)
 		return (0);
 	if (keycode == KEYS_ESC)
 		return (exit_game(game, EXIT_SUCCESS));

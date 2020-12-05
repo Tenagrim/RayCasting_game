@@ -1,3 +1,15 @@
+/* ************************************************************************** */
+/*                                                                            */
+/*                                                        :::      ::::::::   */
+/*   ft_get_map_from_file.c                             :+:      :+:    :+:   */
+/*                                                    +:+ +:+         +:+     */
+/*   By: gshona <marvin@42.fr>                      +#+  +:+       +#+        */
+/*                                                +#+#+#+#+#+   +#+           */
+/*   Created: 2020/12/05 19:08:28 by gshona            #+#    #+#             */
+/*   Updated: 2020/12/05 19:48:29 by gshona           ###   ########.fr       */
+/*                                                                            */
+/* ************************************************************************** */
+
 #include <cub3d.h>
 
 static t_map		*abort_l(t_game *game, t_list *file)
@@ -14,12 +26,12 @@ static t_map		*ft_cl_file(t_list *file)
 	return (NULL);
 }
 
-static void		get_sprites(t_game *game)
+static void			get_sprites(t_game *game)
 {
-	int		i;
-	int		j;
+	int			i;
+	int			j;
 	t_map		*map;
-	int		size;
+	int			size;
 	t_sprite	*sprites;
 
 	sprites = NULL;
@@ -42,7 +54,7 @@ static void		get_sprites(t_game *game)
 	map->sprites = sprites;
 }
 
-t_map			*ft_get_map_from_file(t_game *game, char *filename)
+t_map				*ft_get_map_from_file(t_game *game, char *filename)
 {
 	t_list	*file;
 

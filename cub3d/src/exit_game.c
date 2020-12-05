@@ -1,6 +1,18 @@
+/* ************************************************************************** */
+/*                                                                            */
+/*                                                        :::      ::::::::   */
+/*   exit_game.c                                        :+:      :+:    :+:   */
+/*                                                    +:+ +:+         +:+     */
+/*   By: gshona <marvin@42.fr>                      +#+  +:+       +#+        */
+/*                                                +#+#+#+#+#+   +#+           */
+/*   Created: 2020/12/05 19:07:33 by gshona            #+#    #+#             */
+/*   Updated: 2020/12/05 21:34:17 by gshona           ###   ########.fr       */
+/*                                                                            */
+/* ************************************************************************** */
+
 #include <cub3d.h>
 
-int exit_game(t_game *game, int code)
+int	exit_game(t_game *game, int code)
 {
 	if (code < 0)
 		ft_printf("Error\n");
@@ -9,7 +21,6 @@ int exit_game(t_game *game, int code)
 	{
 		mlx_do_key_autorepeaton(game->mlx->mlx_ptr);
 		clear_game(&game);
-		ft_printf("repeat_on\n");
 	}
 	exit(code);
 	return (code);

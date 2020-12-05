@@ -1,3 +1,15 @@
+/* ************************************************************************** */
+/*                                                                            */
+/*                                                        :::      ::::::::   */
+/*   raycast_im.c                                       :+:      :+:    :+:   */
+/*                                                    +:+ +:+         +:+     */
+/*   By: gshona <marvin@42.fr>                      +#+  +:+       +#+        */
+/*                                                +#+#+#+#+#+   +#+           */
+/*   Created: 2020/12/05 19:13:07 by gshona            #+#    #+#             */
+/*   Updated: 2020/12/05 19:16:11 by gshona           ###   ########.fr       */
+/*                                                                            */
+/* ************************************************************************** */
+
 #include <raycast_args.h>
 
 static void	init_args(t_game *game, t_raycast_args *a)
@@ -31,7 +43,6 @@ static void	verticals(t_game *game, t_raycast_args *a)
 		a->x += a->dx * game->settings->sq_size;
 		a->j++;
 	}
-
 }
 
 static void	horizontals(t_game *game, t_raycast_args *a)
@@ -49,7 +60,7 @@ static void	horizontals(t_game *game, t_raycast_args *a)
 		a->depth.y = (a->y - a->start_pos.y) / a->sin_a;
 		a->xh = a->start_pos.x + a->depth.y * a->cos_a;
 		if (hit(game, a->xh / game->settings->sq_size, (a->y + a->dy) /
-					game->settings->sq_size)== 1)
+					game->settings->sq_size) == 1)
 			break ;
 		a->y += a->dy * game->settings->sq_size;
 		a->j++;
@@ -66,7 +77,7 @@ static void	projection(t_game *game, t_raycast_args *a)
 		a->yv : a->xh;
 	game->map->textures[a->tex_ind]->offset %= game->settings->sq_size;
 	draw_textured_rectangle(game, ft_new_intpair(a->i *
-				game->settings->scale ,
+				game->settings->scale,
 				game->settings->win_size->y / 2 -
 				a->proj_heihgt / 2),
 			ft_new_intpair(game->settings->scale + 1,
@@ -76,12 +87,12 @@ static void	projection(t_game *game, t_raycast_args *a)
 	a->cur_angle += game->settings->delta_angle;
 }
 
-void	raycast_im(t_game *game)
+void		raycast_im(t_game *game)
 {
 	t_raycast_args	a;
 
 	init_args(game, &a);
-	while (a.i < game->settings->numrays )
+	while (a.i < game->settings->numrays)
 	{
 		a.sin_a = sin(a.cur_angle);
 		a.cos_a = cos(a.cur_angle);
@@ -90,4 +101,3 @@ void	raycast_im(t_game *game)
 		projection(game, &a);
 	}
 }
-

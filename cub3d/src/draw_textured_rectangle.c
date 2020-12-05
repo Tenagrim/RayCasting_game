@@ -1,6 +1,18 @@
+/* ************************************************************************** */
+/*                                                                            */
+/*                                                        :::      ::::::::   */
+/*   draw_textured_rectangle.c                          :+:      :+:    :+:   */
+/*                                                    +:+ +:+         +:+     */
+/*   By: gshona <marvin@42.fr>                      +#+  +:+       +#+        */
+/*                                                +#+#+#+#+#+   +#+           */
+/*   Created: 2020/12/05 19:07:19 by gshona            #+#    #+#             */
+/*   Updated: 2020/12/05 19:52:25 by gshona           ###   ########.fr       */
+/*                                                                            */
+/* ************************************************************************** */
+
 #include <cub3d.h>
 
-static int	ft_free_local(t_intpair *a, t_intpair *b)
+static int		ft_free_local(t_intpair *a, t_intpair *b)
 {
 	if (a)
 		free(a);
@@ -9,37 +21,35 @@ static int	ft_free_local(t_intpair *a, t_intpair *b)
 	return (0);
 }
 
-
-static float ft_map_zero(float x, float in_max, float out_max)
+static float	ft_map_zero(float x, float in_max, float out_max)
 {
-  return x * out_max  / in_max;
+	return (x * out_max / in_max);
 }
 
-
-
-static void	crop_vert(t_game *game, t_intpair *pos,
+static void		crop_vert(t_game *game, t_intpair *pos,
 		t_intpair *coords, int *low_stop)
 {
-	if (pos->y < 0)
+	if (pos->y <= 0)
 	{
-		coords->y += -(pos->y);
+		coords->y = 0;
 		*low_stop = game->settings->win_size->y;
 	}
 }
 
-static void	crop_hor(t_game *game, t_intpair *pos, t_intpair *size)
+static void		crop_hor(t_game *game, t_intpair *pos, t_intpair *size)
 {
 	if (pos->x + size->x >= game->settings->win_size->x)
 		size->x = size->x - (pos->x + size->x -
 				game->settings->win_size->x);
+	pos->x = (pos->x < 0) ? 0 : pos->x;
 }
 
-int		draw_textured_rectangle(t_game *game,
+int				draw_textured_rectangle(t_game *game,
 		t_intpair *pos, t_intpair *size, t_img *tex)
 {
-	t_intpair	coords;
-	t_intpair	t_pos;
-	int		low_stop;
+	t_intpair		coords;
+	t_intpair		t_pos;
+	int				low_stop;
 	unsigned int	c;
 
 	coords.y = pos->y;
@@ -54,7 +64,7 @@ int		draw_textured_rectangle(t_game *game,
 			t_pos.x = ((coords.x - pos->x) / size->x) + tex->offset;
 			t_pos.y = ft_map_zero(coords.y - pos->y, size->y, tex->height);
 			c = tex->data[t_pos.y * tex->width + t_pos.x];
-			if (c != 0xff980088)
+			if (c != 0x980088)
 				game->mlx->img->data[coords.y *
 					game->settings->win_size->x + coords.x] = c;
 			coords.x++;
@@ -63,4 +73,3 @@ int		draw_textured_rectangle(t_game *game,
 	}
 	return (ft_free_local(pos, size));
 }
-
