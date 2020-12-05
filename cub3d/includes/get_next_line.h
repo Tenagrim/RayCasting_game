@@ -6,7 +6,7 @@
 /*   By: gshona <marvin@42.fr>                      +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2020/10/29 11:46:40 by gshona            #+#    #+#             */
-/*   Updated: 2020/11/19 23:03:03 by tenagrim         ###   ########.fr       */
+/*   Updated: 2020/12/05 22:07:31 by gshona           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -17,6 +17,7 @@
 # endif
 # include <stdlib.h>
 # include <unistd.h>
+# include <libft.h>
 
 int					get_next_line(const int fd, char **line);
 char				*ft_str_chr(char *str, int c);

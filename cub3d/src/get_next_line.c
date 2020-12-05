@@ -6,11 +6,11 @@
 /*   By: gshona <marvin@42.fr>                      +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2020/11/08 15:55:26 by gshona            #+#    #+#             */
-/*   Updated: 2020/11/19 23:03:54 by tenagrim         ###   ########.fr       */
+/*   Updated: 2020/12/05 22:05:05 by gshona           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-#include "get_next_line.h"
+#include <get_next_line.h>
 
 static char	*malloc_protection(int *errno, char **remain)
 {

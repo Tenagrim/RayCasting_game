@@ -6,11 +6,11 @@
 /*   By: gshona <marvin@42.fr>                      +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2020/10/29 11:24:55 by gshona            #+#    #+#             */
-/*   Updated: 2020/11/20 00:23:42 by tenagrim         ###   ########.fr       */
+/*   Updated: 2020/12/05 22:07:07 by gshona           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-#include "get_next_line.h"
+#include <get_next_line.h>
 
 int					ft_free(char **buff)
 {
@@ -19,19 +19,7 @@ int					ft_free(char **buff)
 	*buff = NULL;
 	return (-1);
 }
-/*
-size_t				ft_strlen(const char *str)
-{
-	size_t len;
 
-	if (!str)
-		return (0);
-	len = 0;
-	while (*(str + len))
-		len++;
-	return (len);
-}
-*/
 char				*ft_str_join(char *s1, char *s2)
 {
 	size_t	len1;
@@ -60,29 +48,7 @@ char				*ft_str_join(char *s1, char *s2)
 	}
 	return (res);
 }
-/*
-char				*ft_strdup(const char *str)
-{
-	char	*res;
-	size_t	len;
-	size_t	i;
 
-	if (!str)
-		return (NULL);
-	len = ft_strlen(str);
-	res = malloc(len + 1);
-	if (!res)
-		return (NULL);
-	res[len] = 0;
-	i = 0;
-	while (i < len)
-	{
-		res[i] = str[i];
-		i++;
-	}
-	return (res);
-}
-*/
 char				*ft_str_chr(char *str, int c)
 {
 	size_t		i;
