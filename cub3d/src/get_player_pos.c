@@ -6,7 +6,7 @@
 /*   By: gshona <marvin@42.fr>                      +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2020/12/05 19:11:00 by gshona            #+#    #+#             */
-/*   Updated: 2020/12/05 19:38:01 by gshona           ###   ########.fr       */
+/*   Updated: 2020/12/07 10:40:14 by gshona           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -34,6 +34,7 @@ static int		get_pl_pos(t_game *game, char c, int i, int j)
 			game->settings->sq_size / 2 + 1;
 		game->player->pos->y = i * game->settings->sq_size +
 			game->settings->sq_size / 2 + 1;
+		game->player->angle += 0.000033;
 	}
 	return (0);
 }

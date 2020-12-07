@@ -6,7 +6,7 @@
 /*   By: gshona <marvin@42.fr>                      +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2020/12/05 19:07:16 by gshona            #+#    #+#             */
-/*   Updated: 2020/12/05 19:44:12 by gshona           ###   ########.fr       */
+/*   Updated: 2020/12/07 10:38:49 by gshona           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -25,7 +25,8 @@ static int		calc_args(t_game *game, t_sprite *sprite, t_draw_sprite_args *a)
 	a->dist = sprite->dist;
 	if (a->dist < game->settings->sq_size / 4.)
 		return (0);
-	a->proj_heihgt = game->settings->proj_coeff / a->dist * 2.5;
+	a->proj_heihgt = game->settings->proj_coeff / a->dist *
+		game->settings->proj_mult;
 	a->numrays = a->proj_heihgt / game->settings->scale + 1;
 	a->start_ray = a->curr_ray - a->numrays / 2;
 	a->stop_ray = a->curr_ray + a->numrays / 2;

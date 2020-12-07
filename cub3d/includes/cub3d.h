@@ -6,7 +6,7 @@
 /*   By: gshona <marvin@42.fr>                      +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2020/12/05 20:47:57 by gshona            #+#    #+#             */
-/*   Updated: 2020/12/05 20:48:40 by gshona           ###   ########.fr       */
+/*   Updated: 2020/12/07 12:16:38 by gshona           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -122,6 +122,7 @@ typedef struct			s_settings
 	int					numrays;
 	int					depth;
 	t_intpair			*win_size;
+	t_intpair			*win_max;
 	int					sq_size;
 	t_intpair			*texture_size;
 	float				texture_scale;
@@ -132,6 +133,7 @@ typedef struct			s_settings
 	float				shadow_mult;
 	float				*z_buffer;
 	float				body;
+	float				proj_mult;
 }						t_settings;
 
 typedef struct			s_game

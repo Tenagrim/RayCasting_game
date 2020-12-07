@@ -6,7 +6,7 @@
 /*   By: gshona <marvin@42.fr>                      +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2020/12/05 19:08:36 by gshona            #+#    #+#             */
-/*   Updated: 2020/12/05 19:08:38 by gshona           ###   ########.fr       */
+/*   Updated: 2020/12/07 11:53:54 by gshona           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -24,7 +24,12 @@ void	ft_get_settings(t_game *game)
 		res->z_buffer = (float*)malloc(sizeof(float) * res->numrays);
 		res->delta_angle = res->fov / res->numrays;
 		res->dist = res->numrays / (2 * tan(res->h_fov));
-		res->proj_coeff = res->dist * res->sq_size;
+		res->proj_coeff = res->sq_size;
 	}
 	res->scale = (float)res->win_size->x / (float)res->numrays;
+	res->proj_mult = res->scale / 2.5;
 }
+
+/*
+**	res->proj_coeff = res->dist * res->sq_size;
+*/

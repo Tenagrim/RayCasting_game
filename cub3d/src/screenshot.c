@@ -6,7 +6,7 @@
 /*   By: gshona <marvin@42.fr>                      +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2020/12/05 19:13:57 by gshona            #+#    #+#             */
-/*   Updated: 2020/12/05 19:14:04 by gshona           ###   ########.fr       */
+/*   Updated: 2020/12/07 12:16:12 by gshona           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -20,5 +20,6 @@ int		screenshot(t_game *game)
 	draw_sprites(game);
 	save_bmp(game);
 	clear_game(&game);
+	ft_printf("Screenshot saved\n");
 	return (0);
 }

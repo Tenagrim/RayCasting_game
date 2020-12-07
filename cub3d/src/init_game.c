@@ -6,7 +6,7 @@
 /*   By: gshona <marvin@42.fr>                      +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2020/12/05 19:11:03 by gshona            #+#    #+#             */
-/*   Updated: 2020/12/05 21:34:09 by gshona           ###   ########.fr       */
+/*   Updated: 2020/12/07 10:24:55 by gshona           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -72,3 +72,8 @@ t_game			*init_game(char **av)
 	mlx_do_key_autorepeatoff(mlx->mlx_ptr);
 	return (game);
 }
+
+/*
+**mlx_get_screen_size(mlx->mlx_ptr, &(game->settings->win_max->x),
+**&(game->settings->win_max->y));
+*/

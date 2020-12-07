@@ -6,7 +6,7 @@
 /*   By: gshona <marvin@42.fr>                      +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2020/12/05 19:12:11 by gshona            #+#    #+#             */
-/*   Updated: 2020/12/05 19:40:47 by gshona           ###   ########.fr       */
+/*   Updated: 2020/12/07 10:31:00 by gshona           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -29,7 +29,7 @@ int		parse_res(t_game *game, t_list *file)
 	ft_clear_split(&digits);
 	if (res.x <= 0 || res.y <= 0)
 		return (0);
-	game->settings->win_size->x = res.x;
-	game->settings->win_size->y = res.y;
+	game->settings->win_size->x = FT_MIN(res.x, game->settings->win_max->x);
+	game->settings->win_size->y = FT_MIN(res.y, game->settings->win_max->y);
 	return (1);
 }

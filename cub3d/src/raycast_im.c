@@ -6,7 +6,7 @@
 /*   By: gshona <marvin@42.fr>                      +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2020/12/05 19:13:07 by gshona            #+#    #+#             */
-/*   Updated: 2020/12/05 19:16:11 by gshona           ###   ########.fr       */
+/*   Updated: 2020/12/07 10:37:33 by gshona           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -72,7 +72,8 @@ static void	projection(t_game *game, t_raycast_args *a)
 	a->tex_ind = get_tex_ind(game, &(a->depth), a->x, a->y);
 	a->d = get_dist(game, &(a->depth), a->cur_angle);
 	game->settings->z_buffer[a->i] = a->d;
-	a->proj_heihgt = game->settings->proj_coeff / a->d * 2.5;
+	a->proj_heihgt = game->settings->proj_coeff / a->d *
+		game->settings->proj_mult;
 	game->map->textures[a->tex_ind]->offset = (a->depth.x < a->depth.y) ?
 		a->yv : a->xh;
 	game->map->textures[a->tex_ind]->offset %= game->settings->sq_size;
