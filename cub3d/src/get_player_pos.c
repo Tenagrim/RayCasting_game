@@ -1,15 +1,3 @@
-/* ************************************************************************** */
-/*                                                                            */
-/*                                                        :::      ::::::::   */
-/*   get_player_pos.c                                   :+:      :+:    :+:   */
-/*                                                    +:+ +:+         +:+     */
-/*   By: gshona <marvin@42.fr>                      +#+  +:+       +#+        */
-/*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2020/12/05 19:11:00 by gshona            #+#    #+#             */
-/*   Updated: 2020/12/07 10:40:14 by gshona           ###   ########.fr       */
-/*                                                                            */
-/* ************************************************************************** */
-
 #include <cub3d.h>
 
 static int		get_pl_pos(t_game *game, char c, int i, int j)
@@ -58,5 +46,5 @@ int				get_player_pos(t_game *game)
 		}
 		i++;
 	}
-	return (1);
+	return ((game->settings->parse_finds & PARSE_PL_POS_FOUND) ? 1 : 0);
 }

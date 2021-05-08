@@ -41,8 +41,8 @@ CC= gcc $(FLAGS)           # mac   CC
 all :  $(NAME)
 
 $(PRINTF) :
-	$(MAKE) -C ft_printf
-	cp ft_printf/libftprintf.a .
+	$(MAKE) -C printf
+	mv printf/libftprintf.a .
 
 %.o: %.c $(HEADER)
 	$(CC) -c $< -o $@
@@ -52,14 +52,14 @@ $(MLX):
 				cp mlx/mlx.h includes/mlx.h
 
 $(NAME) : $(MLX)  $(PRINTF) $(OBJ_FILES) $(HEADER)
-	$(CC) -o $(NAME) $(OBJ_FILES) $(PRINTF) $(LIBS_MAC)
+	$(CC) -o $(NAME) $(OBJ_FILES) $(PRINTF) $(LIBS_MAC) $(MLX)
 
 clean :
-	make clean -C ft_printf
+	make clean -C printf
 	rm -f $(OBJ_FILES)
 
 fclean : clean
-	make fclean -C ft_printf
+	make fclean -C printf
 	make clean -C mlx
 	rm -f $(NAME)
 	rm -f $(PRINTF)
