@@ -1,5 +1,5 @@
 .PHONY: clean fclean re bonus all
-NAME=cub3d
+NAME=game
 HEADER=includes/cub3d.h includes/draw_sprite_args.h includes/ft_printf.h \
 	   includes/get_next_line.h includes/keys_lin.h includes/keys_mac.h \
 	   includes/libft.h includes/mlx.h includes/raycast_args.h
